@@ -1,17 +1,5 @@
-/* :root {
-  --backgroundColor: #111;
-  --Orange: #fd7404;
-  --pink: #db27df;
-  --yellow: #eea835;
-  --purple: #7c4eda;
-} */
-
-body {
-  background-color: var(--backgroundColor);
-  font-family: "Inter", sans-serif;
-}
-
 .carousel {
+  background-color: var(--backgroundColor);
   position: relative;
   min-height: 100vh;
 }

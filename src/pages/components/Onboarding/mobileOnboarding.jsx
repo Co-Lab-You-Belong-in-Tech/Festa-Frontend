@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Carousel, Button } from "react-bootstrap";
 import "./MobileOnboarding.css";
-import FirstImage from "../../assets/splashScreen/FirstImage.png";
-import SecondImage from "../../assets/splashScreen/SecondImage.png";
-import ThirdImage from "../../assets/splashScreen/ThirdImage.png";
+import FirstImage from "../../../assets/splashScreen/FirstImage.png";
+import SecondImage from "../../../assets/splashScreen/SecondImage.png";
+import ThirdImage from "../../../assets/splashScreen/ThirdImage.png";
 export default function MobileOnboarding() {
   const [index, setIndex] = useState(0);
 

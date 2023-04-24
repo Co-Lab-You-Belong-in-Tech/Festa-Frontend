@@ -1,0 +1,21 @@
+div.container {
+  height: 100vh;
+  background-color: #111;
+}
+
+.heading {
+  font-size: 24px;
+  color: #fff;
+}
+
+.form-label {
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.signup-btn {
+  background-color: #db27df;
+  border: none;
+  width: 100%;
+}
