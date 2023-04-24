@@ -44,10 +44,10 @@ const SignUp = () => {
 
   return (
     <div className="container">
-      <div className="flex items-center justify-center">
-        <img src={Logo} alt="Logo" />
-        <h1 className="fw-bold text-left heading">Sign Up</h1>
+      <div className="img-container">
+        <img src={Logo} alt="Logo" className="img-fluid mx-auto" />
       </div>
+      <h1 className="fw-bold text-left heading">Sign Up</h1>
 
       <Form>
         <Form.Group className="mb-3" controlId="formBasicText">
@@ -88,9 +88,7 @@ const SignUp = () => {
           </span> */}
         </Button>
       </Form>
-      <p className="text-base underline tracking-[0.02em] text-[inherit] inline-block text-center mb-2">
-        Already have an account?
-      </p>
+      <p className="text-center text-white ">Already have an account?</p>
     </div>
   );
 };

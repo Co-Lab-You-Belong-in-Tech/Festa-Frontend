@@ -6,6 +6,7 @@ div.container {
 .heading {
   font-size: 24px;
   color: #fff;
+  margin-bottom: 16px;
 }
 
 .form-label {
@@ -14,8 +15,24 @@ div.container {
   font-weight: 500;
 }
 
+.img-container {
+  display: grid;
+  place-items: center;
+}
+
+.img-container img {
+  margin-top: 86px;
+  margin-bottom: 35px;
+}
+
 .signup-btn {
   background-color: #db27df;
   border: none;
   width: 100%;
+  border-radius: 4px;
+  margin-top: 10px;
+}
+
+p {
+  margin-top: 24px;
 }
