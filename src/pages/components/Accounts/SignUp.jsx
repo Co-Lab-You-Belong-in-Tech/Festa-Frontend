@@ -56,6 +56,7 @@ const SignUp = () => {
             type="text"
             value={name}
             name="name"
+            required
             // onChange={onChange}
           />
         </Form.Group>
@@ -65,6 +66,7 @@ const SignUp = () => {
           <Form.Control
             type="email"
             name="email"
+            required
             // value={email}
             // onChange={onChange}
           />
@@ -77,6 +79,7 @@ const SignUp = () => {
             // value={password}
             name="password"
             minLength={8}
+            required
             // onChange={onChange}
           />
         </Form.Group>

@@ -33,6 +33,10 @@ div.container {
   margin-top: 10px;
 }
 
+.signup-btn:hover {
+  background-color: #7c4eda;
+}
+
 p {
   margin-top: 24px;
 }

@@ -7,6 +7,7 @@ import "./App.css";
 import Root from "./pages/index.jsx";
 import ErrorPage from "./error-page";
 import Register from "./pages/components/Accounts/SignUp";
+import Login from "./pages/components/Accounts/SignIn";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <Register />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
   },
 ]);
 

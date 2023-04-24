@@ -1,31 +1,30 @@
 import { Button, Form } from "react-bootstrap";
-import Logo from "../../assets/Logo_PNG.svg";
+import Logo from "../../../assets/Logo_PNG.svg";
+import "./SignUp.css";
 
 const SignIn = () => {
   return (
-    <div>
-      <img src={Logo} alt="Logo" />
-      <h2>Sign In</h2>
+    <div className="container">
+      <div className="img-container">
+        <img src={Logo} alt="Logo" className="img-fluid mx-auto" />
+      </div>
+      <h2 className="fw-bold text-left heading">Sign In</h2>
       <Form>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
-          <Form.Control type="email" placeholder="Enter email" />
+          <Form.Control type="email" required />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
-          <Form.Control type="password" placeholder="Password" />
+          <Form.Control type="password" required />
         </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicCheckbox">
-          <Form.Check type="checkbox" label="Check me out" />
-        </Form.Group>
-        <Button variant="primary" type="submit">
+
+        <Button variant="primary" type="submit" className="signup-btn">
           Continue
         </Button>
       </Form>
-      <p className="text-base underline tracking-[0.02em] text-[inherit] inline-block text-center mb-2">
-        Forgot Password
-      </p>
+      <p className="text-center text-white">Forgot Password</p>
     </div>
   );
 };
