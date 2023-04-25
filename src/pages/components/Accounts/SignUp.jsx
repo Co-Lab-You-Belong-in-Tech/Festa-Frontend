@@ -4,7 +4,7 @@ import "./SignUp.css";
 import { ThreeDots } from "react-loader-spinner";
 // import { toast } from "react-toastify";
 // import { useSelector, useDispatch } from "react-redux";
-import Logo from "../../../assets/Logo_PNG.svg";
+
 const SignUp = () => {
   // const [formData, setFormData] = useState({
   //   name: "",
@@ -45,7 +45,11 @@ const SignUp = () => {
   return (
     <div className="container">
       <div className="img-container">
-        <img src={Logo} alt="Logo" className="img-fluid mx-auto" />
+        <img
+          src="/assets/Logo_PNG.svg"
+          alt="Logo"
+          className="img-fluid mx-auto"
+        />
       </div>
       <h1 className="fw-bold text-left heading">Sign Up</h1>
 
@@ -57,6 +61,7 @@ const SignUp = () => {
             value={name}
             name="name"
             required
+            className="input-form"
             // onChange={onChange}
           />
         </Form.Group>
@@ -67,6 +72,7 @@ const SignUp = () => {
             type="email"
             name="email"
             required
+            className="input-form"
             // value={email}
             // onChange={onChange}
           />
@@ -79,6 +85,7 @@ const SignUp = () => {
             // value={password}
             name="password"
             minLength={8}
+            className="input-form"
             required
             // onChange={onChange}
           />

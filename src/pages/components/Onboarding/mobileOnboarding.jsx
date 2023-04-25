@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { Carousel, Button } from "react-bootstrap";
 import "./MobileOnboarding.css";
-import FirstImage from "../../../assets/splashScreen/FirstImage.png";
-import SecondImage from "../../../assets/splashScreen/SecondImage.png";
-import ThirdImage from "../../../assets/splashScreen/ThirdImage.png";
+
 export default function MobileOnboarding() {
   const [index, setIndex] = useState(0);
 
@@ -19,7 +17,11 @@ export default function MobileOnboarding() {
         className="carousel"
       >
         <Carousel.Item>
-          <img className="d-block w-100" src={FirstImage} alt="First slide" />
+          <img
+            className="d-block w-100"
+            src="/assets/splashScreen/FirstImage.png"
+            alt="First slide"
+          />
 
           <p className="fw-bold carousel-text button-wrapper">
             Find your next EDM experience. Spend less time searching and more
@@ -29,7 +31,11 @@ export default function MobileOnboarding() {
           <CallToAction />
         </Carousel.Item>
         <Carousel.Item>
-          <img className="d-block w-100" src={SecondImage} alt="Second slide" />
+          <img
+            className="d-block w-100"
+            src="/assets/splashScreen/SecondImage.png"
+            alt="Second slide"
+          />
 
           <p className="fw-bold carousel-text button-wrapper">
             Follow you favorite EDM artists to get updates on events and
@@ -39,7 +45,11 @@ export default function MobileOnboarding() {
           <CallToAction />
         </Carousel.Item>
         <Carousel.Item>
-          <img className="d-block w-100" src={ThirdImage} alt="Third slide" />
+          <img
+            className="d-block w-100"
+            src="/assets/splashScreen/ThirdImage.png"
+            alt="Third slide"
+          />
 
           <p className="fw-bold carousel-text button-wrapper">
             EDM music festival and concerts near you when you least expect it.

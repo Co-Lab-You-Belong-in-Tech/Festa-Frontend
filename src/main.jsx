@@ -8,6 +8,9 @@ import Root from "./pages/index.jsx";
 import ErrorPage from "./error-page";
 import Register from "./pages/components/Accounts/SignUp";
 import Login from "./pages/components/Accounts/SignIn";
+import ChooseArtist from "./pages/components/ChooseArtist";
+import Location from "./pages/components/Location";
+import SplashLoading from "./pages/components/SplashLoading";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +25,18 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/choose-artist",
+    element: <ChooseArtist />,
+  },
+  {
+    path: "/location",
+    element: <Location />,
+  },
+  {
+    path: "/loading",
+    element: <SplashLoading />,
   },
 ]);
 

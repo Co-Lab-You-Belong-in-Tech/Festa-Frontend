@@ -26,7 +26,7 @@ div.container {
 }
 
 .signup-btn {
-  background-color: #db27df;
+  background-color: var(--pink);
   border: none;
   width: 100%;
   border-radius: 4px;
@@ -34,7 +34,7 @@ div.container {
 }
 
 .signup-btn:hover {
-  background-color: #7c4eda;
+  background-color: var(--purple);
 }
 
 p {

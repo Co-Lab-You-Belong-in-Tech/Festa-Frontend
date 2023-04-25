@@ -1,0 +1,18 @@
+.heading {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 19px;
+}
+
+.img-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.zip-input {
+  border: 1px solid #ffffff;
+  border-radius: 4px;
+  color: #a1a1a1;
+  margin-top: 28px;
+}
