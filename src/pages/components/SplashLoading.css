@@ -2,3 +2,16 @@
   background-color: var(--backgroundColor);
   height: 100vh;
 }
+.progress-wrapper {
+  width: 90%;
+  margin: auto;
+  margin-top: 24px;
+}
+
+.progress {
+  background-color: var(--Orange);
+  transition: "width 1s ease-in-out";
+}
+.progress-bar {
+  background-color: var(--pink);
+}
