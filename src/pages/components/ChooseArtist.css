@@ -10,11 +10,9 @@
   padding-left: 24px;
 }
 
-/* .artistimage {
-  width: 69px;
-  height: 65px;
-  border-radius: 50%;
-} */
+.search-wrapper {
+  border-radius: 12px;
+}
 
 .search-form {
   border: 1px solid #f6f6f6;
@@ -24,18 +22,22 @@
   color: #a1a1a1;
 }
 
-.form span {
-  position: absolute;
+.search-icon {
+  font-size: 24px;
+}
+
+.artistimage {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .form {
   width: 100%;
 }
 
-.search-icon {
-  padding: 10px;
-  min-width: 40px;
-}
 .d-flex {
   gap: 24px;
 }
@@ -76,4 +78,8 @@
 
 .artist-btn:hover {
   background-color: var(--purple);
+}
+
+.no-result {
+  margin-top: 74px;
 }

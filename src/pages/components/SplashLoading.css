@@ -10,7 +10,7 @@
 
 .progress {
   background-color: var(--Orange);
-  transition: "width 1s ease-in-out";
+  transition: "width 1s linear";
 }
 .progress-bar {
   background-color: var(--pink);

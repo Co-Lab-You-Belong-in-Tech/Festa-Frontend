@@ -1,13 +1,24 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { ProgressBar } from "react-bootstrap";
 import "./SplashLoading.css";
 
 const SplashLoading = () => {
   const [completed, setCompleted] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    setInterval(() => setCompleted(Math.floor(Math.random() * 100) + 1), 2000);
+    let interval = null;
+
+    interval = setInterval(() => setCompleted((prev) => prev + 10), 200);
+    return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    if (completed == 150) {
+      navigate("/choose-artist");
+    }
+  }, [completed]);
 
   return (
     <div className="wrapper">

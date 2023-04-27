@@ -11,6 +11,8 @@ import Login from "./pages/components/Accounts/SignIn";
 import ChooseArtist from "./pages/components/ChooseArtist";
 import Location from "./pages/components/Location";
 import SplashLoading from "./pages/components/SplashLoading";
+import Home from "./pages/components/Home";
+import Date from "./pages/components/Date";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +39,14 @@ const router = createBrowserRouter([
   {
     path: "/loading",
     element: <SplashLoading />,
+  },
+  {
+    path: "/discover",
+    element: <Home />,
+  },
+  {
+    path: "/calendar",
+    element: <Date />,
   },
 ]);
 

@@ -9,4 +9,6 @@
 
 body {
   font-family: "Inter", sans-serif;
+  color: #fff;
+  background-color: var(--backgroundColor);
 }
