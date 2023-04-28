@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Carousel, Button } from "react-bootstrap";
 import "./MobileOnboarding.css";
 
@@ -62,10 +63,15 @@ export default function MobileOnboarding() {
 }
 
 function CallToAction() {
+  const navigate = useNavigate();
   return (
     <div className="button-wrapper mt-4">
-      <Button className="sign-up">Get Started</Button>
-      <Button className="sign-in">I already have an account</Button>
+      <Button className="sign-up" onClick={() => navigate("/register")}>
+        Get Started
+      </Button>
+      <Button className="sign-in" onClick={() => navigate("/login")}>
+        I already have an account
+      </Button>
     </div>
   );
 }
