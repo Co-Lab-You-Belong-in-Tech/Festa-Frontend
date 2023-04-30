@@ -6,12 +6,14 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./App.css";
 import Root from "./pages/index.jsx";
 import ErrorPage from "./error-page";
-import Register from "./pages/components/Accounts/SignUp";
-import Login from "./pages/components/Accounts/SignIn";
-import ChooseArtist from "./pages/components/ChooseArtist";
-import Location from "./pages/components/Location";
-import SplashLoading from "./pages/components/SplashLoading";
-import Home from "./pages/components/Home";
+import Register from "./pages/Accounts/SignUp";
+import Login from "./pages/Accounts/SignIn";
+import ChooseArtist from "./pages/ChooseArtist";
+import Location from "./pages/Location";
+import SplashLoading from "./components/SplashLoading";
+import Home from "./pages/Home";
+import RecommendedPage from "./pages/Recommended";
+import { IconContext } from "react-icons";
 
 const router = createBrowserRouter([
   {
@@ -43,10 +45,16 @@ const router = createBrowserRouter([
     path: "/discover",
     element: <Home />,
   },
+  {
+    path: "/discover/recommended",
+    element: <RecommendedPage />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <IconContext.Provider value={{ size: 24 }}>
+      <RouterProvider router={router} />
+    </IconContext.Provider>
   </React.StrictMode>
 );

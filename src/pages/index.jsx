@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useLayoutEffect } from "react";
-import MobileOnboardingPage from "../pages/components/Onboarding/mobileOnboarding.jsx";
-import DesktopOnboardingPage from "../pages/components/Onboarding/desktopOnboarding.jsx";
+import MobileOnboardingPage from "../components/Onboarding/mobileOnboarding.jsx";
+import DesktopOnboardingPage from "../components/Onboarding/desktopOnboarding.jsx";
 
 function Onboarding() {
   const [isMobile, setIsMobile] = useState(false);

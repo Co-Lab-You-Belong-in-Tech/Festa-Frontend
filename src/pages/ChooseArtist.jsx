@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import "./ChooseArtist.css";
-import { artists } from "./Artistdata";
+import { artists } from "../components/data/Artistdata";
 import { BsCheck } from "react-icons/bs";
 import { GrSearch } from "react-icons/gr";
 const ChooseArtist = () => {

@@ -36,7 +36,3 @@ div.container {
 .signup-btn:hover {
   background-color: var(--purple);
 }
-
-p {
-  margin-top: 24px;
-}

@@ -98,7 +98,7 @@ const SignUp = () => {
           </span> */}
         </Button>
       </Form>
-      <p className="text-center text-white ">Already have an account?</p>
+      <p className="text-center text-white mt-4">Already have an account?</p>
     </div>
   );
 };
