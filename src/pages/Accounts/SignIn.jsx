@@ -28,7 +28,7 @@ const SignIn = () => {
           Continue
         </Button>
       </Form>
-      <p className="text-center text-white">Forgot Password</p>
+      <p className="text-center text-white mt-4">Forgot Password</p>
     </div>
   );
 };

@@ -1,11 +1,13 @@
 // import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import "./SignUp.css";
+import { useNavigate } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
 // import { toast } from "react-toastify";
 // import { useSelector, useDispatch } from "react-redux";
 
 const SignUp = () => {
+  const navigate = useNavigate();
   // const [formData, setFormData] = useState({
   //   name: "",
   //   email: "",
@@ -98,7 +100,12 @@ const SignUp = () => {
           </span> */}
         </Button>
       </Form>
-      <p className="text-center text-white mt-4">Already have an account?</p>
+      <p
+        onClick={() => navigate("/login")}
+        className="text-center text-white mt-4"
+      >
+        Already have an account?
+      </p>
     </div>
   );
 };
