@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button, Form, InputGroup } from "react-bootstrap";
 import "./Location.css";
 const Location = () => {
+  const navigate = useNavigate();
   const [value, setValue] = useState("");
 
   const handleChange = (event) => {
@@ -33,10 +35,20 @@ const Location = () => {
           onChange={handleChange}
         />
       </InputGroup>
-      <Button variant="primary" type="submit" className="signup-btn">
+      <Button
+        variant="primary"
+        type="submit"
+        className="signup-btn "
+        onClick={() => navigate("/loading")}
+      >
         Continue
       </Button>
-      <p className="text-center text-white">Skip for now</p>
+      <p
+        className="text-center text-white mt-4"
+        onClick={() => navigate("/loading")}
+      >
+        Skip for now
+      </p>
     </div>
   );
 };

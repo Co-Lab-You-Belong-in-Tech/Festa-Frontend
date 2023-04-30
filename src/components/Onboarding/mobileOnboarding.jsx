@@ -15,7 +15,7 @@ export default function MobileOnboarding() {
       <Carousel
         activeIndex={index}
         onSelect={handleSelect}
-        className="carousel"
+        className="carousel mt-4"
       >
         <Carousel.Item>
           <img

@@ -6,7 +6,7 @@ import "./Home.css";
 import { GrSearch } from "react-icons/gr";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { SlLocationPin } from "react-icons/sl";
-import { events } from "../components/data/Eventsdata";
+import { events, Upcomingevents } from "../components/data/Eventsdata";
 import { Link } from "react-router-dom";
 
 const weekDays = ["S", "M", "T", "W", "T", "F", "S"];
@@ -151,6 +151,9 @@ function Recommended({ searchQuery, selectedEvent, updateSelectedEventList }) {
   const filteredEvents = events.filter((event) =>
     event.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
+  const filteredUpcomingEvents = Upcomingevents.filter((upcomingevent) =>
+    upcomingevent.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div>
@@ -183,6 +186,47 @@ function Recommended({ searchQuery, selectedEvent, updateSelectedEventList }) {
             </div>
             <div className="" onClick={() => updateSelectedEventList(event.id)}>
               {selectedEvent.includes(event.id) ? <BsHeartFill /> : <BsHeart />}
+            </div>
+          </div>
+        </div>
+      ))}
+
+      <div className="d-flex justify-content-between align-items-center event-list-header">
+        <p className="fw-bold ">Upcoming Events</p>
+        <Link
+          to="/discover/recommended"
+          className="view-more-button text-decoration-none text-white"
+        >
+          View More
+        </Link>
+      </div>
+      {filteredUpcomingEvents.slice(0, 4).map((upcomingevent) => (
+        <div key={upcomingevent.id} className="eventlist">
+          <div className="d-flex justify-between align-start w-100 gap-2">
+            <div className="d-flex gap-3 align-center flex-grow-1">
+              <div>
+                <img
+                  src={upcomingevent.image}
+                  alt="eventimage"
+                  className="eventimage"
+                />
+              </div>
+              <div className="eventtext">
+                <p className="eventtext-paragraph">{upcomingevent.date}</p>
+                <p className="fw-bold eventname">{upcomingevent.name}</p>
+                <p className="eventtext-paragraph">{upcomingevent.venue}</p>
+                <p className="eventtext-paragraph">{upcomingevent.city}</p>
+              </div>
+            </div>
+            <div
+              className=""
+              onClick={() => updateSelectedEventList(upcomingevent.id)}
+            >
+              {selectedEvent.includes(upcomingevent.id) ? (
+                <BsHeartFill />
+              ) : (
+                <BsHeart />
+              )}
             </div>
           </div>
         </div>

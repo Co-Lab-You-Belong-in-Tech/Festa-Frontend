@@ -60,7 +60,7 @@ const SignUp = () => {
           <Form.Label>Name</Form.Label>
           <Form.Control
             type="text"
-            value={name}
+            // value={name}
             name="name"
             required
             className="input-form"
@@ -93,7 +93,12 @@ const SignUp = () => {
           />
         </Form.Group>
 
-        <Button className="signup-btn" variant="primary" type="submit">
+        <Button
+          className="signup-btn"
+          variant="primary"
+          type="submit"
+          onClick={() => navigate("/choose-artist")}
+        >
           Continue
           {/* <span className="tracking-[0.02em] text-white text-center font-bold text-3xl flex justify-center">
             {loading ? <ThreeDots color="#fff" height={27} /> : "Continue"}

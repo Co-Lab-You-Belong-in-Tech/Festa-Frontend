@@ -16,7 +16,7 @@ const SplashLoading = () => {
 
   useEffect(() => {
     if (completed == 150) {
-      navigate("/choose-artist");
+      navigate("/discover");
     }
   }, [completed]);
 

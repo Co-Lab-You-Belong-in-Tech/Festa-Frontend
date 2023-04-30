@@ -1,10 +1,13 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
 import "./ChooseArtist.css";
 import { artists } from "../components/data/Artistdata";
 import { BsCheck } from "react-icons/bs";
 import { GrSearch } from "react-icons/gr";
 const ChooseArtist = () => {
+  const navigate = useNavigate();
+
   const [selectedArtist, setselectedArtist] = useState([]);
 
   function updateSelectedArtistList(id) {
@@ -51,7 +54,7 @@ const ChooseArtist = () => {
 
         {/* <Button variant="outline-success">Search</Button> */}
       </Form>
-      <p className="text-white container">Suggested Artists</p>
+      <p className="text-white container mt-4">Suggested Artists</p>
       {filteredArtists.map((artist) => (
         <div
           key={artist.id}
@@ -86,7 +89,12 @@ const ChooseArtist = () => {
       )}
 
       <div className=" container">
-        <Button variant="primary" type="submit" className="artist-btn">
+        <Button
+          variant="primary"
+          type="submit"
+          className="artist-btn"
+          onClick={() => navigate("/location")}
+        >
           Continue
         </Button>
       </div>

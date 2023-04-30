@@ -1,8 +1,10 @@
 import { Button, Form } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 import "./SignUp.css";
 
 const SignIn = () => {
+  const navigate = useNavigate();
   return (
     <div className="container">
       <div className="img-container">
@@ -24,7 +26,12 @@ const SignIn = () => {
           <Form.Control type="password" className="input-form" required />
         </Form.Group>
 
-        <Button variant="primary" type="submit" className="signup-btn">
+        <Button
+          variant="primary"
+          type="submit"
+          className="signup-btn"
+          onClick={() => navigate("/discover")}
+        >
           Continue
         </Button>
       </Form>
