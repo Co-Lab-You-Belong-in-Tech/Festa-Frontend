@@ -13,6 +13,7 @@ import Location from "./pages/Location";
 import SplashLoading from "./components/SplashLoading";
 import Home from "./pages/Home";
 import RecommendedPage from "./pages/Recommended";
+import UpcomingEvents from "./pages/UpcomingEvents";
 import { IconContext } from "react-icons";
 
 const router = createBrowserRouter([
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
   {
     path: "/discover/recommended",
     element: <RecommendedPage />,
+  },
+  {
+    path: "/discover/upcoming-events",
+    element: <UpcomingEvents />,
   },
 ]);
 
