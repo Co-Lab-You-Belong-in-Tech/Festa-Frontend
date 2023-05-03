@@ -1,15 +1,32 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Form, InputGroup } from "react-bootstrap";
+import axios from "axios";
+import { LocationContext } from "./LocationContext";
 import "./Location.css";
+
 const Location = () => {
   const navigate = useNavigate();
-  const [value, setValue] = useState("");
+  const [zipcode, setZipcode] = useState("");
+  const { updateLocation, setIsLoading } = useContext(LocationContext);
 
-  const handleChange = (event) => {
-    const result = event.target.value.replace(/\D/g, "");
+  const handleZipcodeChange = (e) => {
+    setZipcode(e.target.value);
+  };
 
-    setValue(result);
+  const handleLookup = () => {
+    axios
+      .get(`https://api.zippopotam.us/us/${zipcode}`)
+      .then((response) => {
+        const city = response.data.places[0]["place name"];
+        const state = response.data.places[0]["state abbreviation"];
+        updateLocation(city, state, zipcode);
+        setIsLoading(true); // Set isLoading to true
+        navigate("/loading", { state: { zipcode } });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return (
@@ -31,20 +48,23 @@ const Location = () => {
           aria-label="Your ZIP Code"
           aria-describedby="basic-addon1"
           className="zip-input"
-          value={value}
-          onChange={handleChange}
+          maxLength={5}
+          value={zipcode}
+          onChange={handleZipcodeChange}
         />
       </InputGroup>
+
       <Button
         variant="primary"
         type="submit"
         className="signup-btn "
-        onClick={() => navigate("/loading")}
+        onClick={handleLookup}
       >
         Continue
       </Button>
+
       <p
-        className="text-center text-white mt-4"
+        className="text-center text-white mt-4 pe-auto"
         onClick={() => navigate("/loading")}
       >
         Skip for now

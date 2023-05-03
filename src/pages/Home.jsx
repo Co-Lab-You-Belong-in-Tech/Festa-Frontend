@@ -1,16 +1,27 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { Button, Form, InputGroup, Modal } from "react-bootstrap";
 import "./Home.css";
+import { LocationContext } from "./LocationContext";
 import { GrSearch } from "react-icons/gr";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { SlLocationPin } from "react-icons/sl";
 import { events, Upcomingevents } from "../components/data/Eventsdata";
 import { Link } from "react-router-dom";
+import axios from "axios";
+
+// import AppLayout from "../components/Layout/AppLayout";
 
 const weekDays = ["S", "M", "T", "W", "T", "F", "S"];
+
 const Home = () => {
+  const { location } = useContext(LocationContext);
+  // const location = useLocation();
+  // const city = location?.state?.city;
+  // const state = location?.state?.state;
+  // console.log(city);
+
   const formatter = Intl.DateTimeFormat("en-us", {
     month: "long",
     day: "numeric",
@@ -97,7 +108,6 @@ const Home = () => {
           </div>
           <Form.Control
             type="search"
-            input
             placeholder="Search all events"
             className="me-2 search-form"
             aria-label="Search"
@@ -112,7 +122,9 @@ const Home = () => {
       <div className="d-flex align-items-center select mt-4">
         <div className="d-flex align-items-center map " onClick={handleMapShow}>
           <SlLocationPin className="map-pin " />
-          <p className="m-0">Saint Paul, MN</p>
+          <span>
+            {location.city}, {location.state}
+          </span>
         </div>
         <div className="d-flex date " onClick={handleShow}>
           <img src="/public/assets/discover/calendar.svg" alt="calendar-logo" />
@@ -135,6 +147,7 @@ const Home = () => {
           handleClose={handleClose}
         />
       </div>
+
       <Recommended
         searchQuery={searchQuery}
         selectedEvent={selectedEvent}
@@ -237,19 +250,14 @@ function Recommended({ searchQuery, selectedEvent, updateSelectedEventList }) {
 
 function CalendarModal({
   show,
-  fullscreen,
+
   setShow,
   value,
   onChange,
   handleClose,
 }) {
   return (
-    <Modal
-      className="modal"
-      show={show}
-      fullscreen={fullscreen}
-      onHide={() => setShow(false)}
-    >
+    <Modal className="modal" show={show} onHide={() => setShow(false)}>
       <Modal.Header className="modal-header" closeButton>
         <Modal.Title className="fw-bold text-center">Select Date</Modal.Title>
       </Modal.Header>
@@ -282,21 +290,40 @@ function CalendarModal({
   );
 }
 
-function LocationModal({
-  showMap,
-  fullscreen,
-  setShowMap,
-  values,
-  handleChange,
-  handleMapClose,
-}) {
+export function LocationModal({ showMap, setShowMap, handleMapClose }) {
+  const { location, updateLocation } = useContext(LocationContext);
+  const [zipcode, setZipcode] = useState("");
+
+  const handleZipcodeChange = (e) => {
+    setZipcode(e.target.value);
+  };
+
+  const handleLookup = async () => {
+    try {
+      const response = await axios.get(
+        `https://api.zippopotam.us/us/${zipcode}`
+      );
+      const city = response.data.places[0]["place name"];
+      const state = response.data.places[0]["state abbreviation"];
+      return { city, state, zipcode };
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
+  const onClickHandler = async () => {
+    handleMapClose();
+    try {
+      const { city, state, zipcode } = await handleLookup();
+      updateLocation(city, state, zipcode);
+    } catch (error) {
+      // Handle error
+    }
+  };
+
   return (
-    <Modal
-      className="modal"
-      show={showMap}
-      fullscreen={fullscreen}
-      onHide={() => setShowMap(false)}
-    >
+    <Modal className="modal" show={showMap} onHide={() => setShowMap(false)}>
       <Modal.Header className="modal-header" closeButton>
         <Modal.Title className="fw-bold text-center">
           Select Location
@@ -304,8 +331,10 @@ function LocationModal({
       </Modal.Header>
       <Modal.Body>
         <div className="d-flex align-items-center Modalmap">
-          <SlLocationPin className="map-pin " />
-          <p>Saint Paul, MN</p>
+          <SlLocationPin className="map-pin" />
+          <span>
+            {location.city}, {location.state}
+          </span>
         </div>
         <p className="fw-bold location">Add New Location</p>
         <InputGroup className="mb-3">
@@ -314,21 +343,13 @@ function LocationModal({
             aria-label="Your ZIP Code"
             aria-describedby="basic-addon1"
             className="zip-input"
-            value={values}
-            onChange={handleChange}
+            value={zipcode}
+            onChange={handleZipcodeChange}
             required
           />
         </InputGroup>
-        {/* <Alert
-          color="primary"
-          dismissible
-          visible={visible}
-          onClose={() => setVisible(false)}
-        >
-          Saved Successfully
-        </Alert> */}
         <div className="btn-wrap">
-          <Button className="save-btn-zip" onClick={handleMapClose}>
+          <Button className="save-btn-zip" onClick={onClickHandler}>
             Save
           </Button>
         </div>

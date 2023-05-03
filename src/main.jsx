@@ -2,7 +2,13 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import ReactDOM from "react-dom/client";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import { persistStore } from "redux-persist";
+import store from "./redux/store/store.js";
+// import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
 import "./App.css";
 import Root from "./pages/index.jsx";
 import ErrorPage from "./error-page";
@@ -14,7 +20,9 @@ import SplashLoading from "./components/SplashLoading";
 import Home from "./pages/Home";
 import RecommendedPage from "./pages/Recommended";
 import UpcomingEvents from "./pages/UpcomingEvents";
+
 import { IconContext } from "react-icons";
+import { LocationProvider } from "./pages/LocationContext.jsx";
 
 const router = createBrowserRouter([
   {
@@ -36,15 +44,27 @@ const router = createBrowserRouter([
   },
   {
     path: "/location",
-    element: <Location />,
+    element: (
+      <LocationProvider>
+        <Location />
+      </LocationProvider>
+    ),
   },
   {
     path: "/loading",
-    element: <SplashLoading />,
+    element: (
+      <LocationProvider>
+        <SplashLoading />
+      </LocationProvider>
+    ),
   },
   {
     path: "/discover",
-    element: <Home />,
+    element: (
+      <LocationProvider>
+        <Home />
+      </LocationProvider>
+    ),
   },
   {
     path: "/discover/recommended",
@@ -54,12 +74,22 @@ const router = createBrowserRouter([
     path: "/discover/upcoming-events",
     element: <UpcomingEvents />,
   },
+  // {
+  //   path: "/zip",
+  //   element: <ZipCode />,
+  // },
 ]);
 
+const persistor = persistStore(store);
+
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <IconContext.Provider value={{ size: 24 }}>
-      <RouterProvider router={router} />
-    </IconContext.Provider>
-  </React.StrictMode>
+  <Provider store={store}>
+    <PersistGate persistor={persistor}>
+      <React.StrictMode>
+        <IconContext.Provider value={{ size: 24 }}>
+          <RouterProvider router={router} />
+        </IconContext.Provider>
+      </React.StrictMode>
+    </PersistGate>
+  </Provider>
 );

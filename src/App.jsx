@@ -1,13 +1,13 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
-import MobileOnboarding from "./pages/components/Onboarding/mobileOnboarding";
+import MobileOnboarding from "./components/Onboarding/mobileOnboarding";
 import "./App.css";
-// import DesktopOnboarding from "./components/Onboarding/desktopOnboarding";
+import DesktopOnboarding from "./components/Onboarding/desktopOnboarding";
 export default function App() {
   return (
     <>
       <MobileOnboarding />
-      {/* <DesktopOnboarding /> */}
+      <DesktopOnboarding />
     </>
   );
 }
