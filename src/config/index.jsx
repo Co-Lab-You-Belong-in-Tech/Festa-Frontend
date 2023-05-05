@@ -1,2 +1,2 @@
-const API_URL = "https://festa-be-service.herokuapp.com";
+const API_URL = "https://festa-api.herokuapp.com";
 export default API_URL;
