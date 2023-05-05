@@ -17,10 +17,6 @@ const weekDays = ["S", "M", "T", "W", "T", "F", "S"];
 
 const Home = () => {
   const { location } = useContext(LocationContext);
-  // const location = useLocation();
-  // const city = location?.state?.city;
-  // const state = location?.state?.state;
-  // console.log(city);
 
   const formatter = Intl.DateTimeFormat("en-us", {
     month: "long",
@@ -127,7 +123,7 @@ const Home = () => {
           </span>
         </div>
         <div className="d-flex date " onClick={handleShow}>
-          <img src="/public/assets/discover/calendar.svg" alt="calendar-logo" />
+          <img src="/assets/discover/calendar.svg" alt="calendar-logo" />
           <p className="m-0">{formattedDate}</p>
         </div>
         <LocationModal
