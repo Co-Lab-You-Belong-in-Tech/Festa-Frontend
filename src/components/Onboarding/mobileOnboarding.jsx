@@ -28,9 +28,8 @@ export default function MobileOnboarding() {
             Find your next EDM experience. Spend less time searching and more
             time enjoying.
           </p>
-
-          <CallToAction />
         </Carousel.Item>
+
         <Carousel.Item>
           <img
             className="d-block w-100"
@@ -42,9 +41,8 @@ export default function MobileOnboarding() {
             Follow you favorite EDM artists to get updates on events and
             tickets!
           </p>
-
-          <CallToAction />
         </Carousel.Item>
+
         <Carousel.Item>
           <img
             className="d-block w-100"
@@ -55,9 +53,9 @@ export default function MobileOnboarding() {
           <p className="fw-bold carousel-text button-wrapper">
             EDM music festival and concerts near you when you least expect it.
           </p>
-          <CallToAction />
         </Carousel.Item>
       </Carousel>
+      <CallToAction />
     </>
   );
 }

@@ -1,7 +1,7 @@
 .carousel {
   background-color: var(--backgroundColor);
   position: relative;
-  min-height: 100vh;
+  min-height: 70vh;
 }
 .carousel::before {
   position: absolute;
@@ -15,7 +15,7 @@
 }
 
 .carousel-inner {
-  height: 100vh;
+  height: 70vh;
 }
 
 .carousel img.d-block {
@@ -45,7 +45,7 @@
 
 .carousel-indicators {
   z-index: 15;
-  bottom: 23vh;
+  bottom: -4vh;
 }
 
 .carousel-indicators [data-bs-target] {
@@ -69,6 +69,7 @@
   position: relative;
   margin-inline: auto;
   margin-top: 40px;
+  z-index: 25;
 }
 
 .button-wrapper .sign-up {
