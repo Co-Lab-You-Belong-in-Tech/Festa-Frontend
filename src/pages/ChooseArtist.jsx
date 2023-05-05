@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
+// import axios from "axios";
 import "./ChooseArtist.css";
 import { artists } from "../components/data/Artistdata";
 import { BsCheck } from "react-icons/bs";
 import { GrSearch } from "react-icons/gr";
+// import API_URL from "../config";
 const ChooseArtist = () => {
   const navigate = useNavigate();
 
@@ -17,6 +19,29 @@ const ChooseArtist = () => {
       setselectedArtist((prev) => prev.filter((artistId) => artistId !== id));
     }
   }
+
+  // Function to handle adding an artist to favorites
+  // const addToFavorites = async (artistId) => {
+  //   try {
+  //     // Send a POST request to your backend API
+  //     const response = await axios.post(
+  //       `${API_URL}/api/v1/users/favorite-artist`,
+  //       { artistId }
+  //     );
+
+  //     // Handle the response
+  //     if (response.status === 200) {
+  //       // Artist successfully added to favorites
+  //       console.log("Artist added to favorites!");
+  //     } else {
+  //       // Handle other response statuses or error cases
+  //       console.error("Failed to add artist to favorites");
+  //     }
+  //   } catch (error) {
+  //     // Handle error
+  //     console.error("Error adding artist to favorites", error);
+  //   }
+  // };
 
   const [searchQuery, setSearchQuery] = useState("");
   const filteredArtists = artists.filter((artist) =>
@@ -59,7 +84,10 @@ const ChooseArtist = () => {
         <div
           key={artist.id}
           className="artistlist"
-          onClick={() => updateSelectedArtistList(artist.id)}
+          onClick={() => {
+            updateSelectedArtistList(artist.id);
+            // addToFavorites(artist.id);
+          }}
         >
           <div className="d-flex">
             <img src={artist.image} alt="artistimage" className="artistimage" />
