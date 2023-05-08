@@ -163,7 +163,7 @@ const EventDetails = () => {
             Age Restriction: <span>{age_restriction}</span> years
           </p>
         </div>
-        <Link to={ticket_buying_link}>
+        <Link to={ticket_buying_link} target="_blank">
           <Button className="find-ticket">Find Tickets</Button>
         </Link>
       </div>
