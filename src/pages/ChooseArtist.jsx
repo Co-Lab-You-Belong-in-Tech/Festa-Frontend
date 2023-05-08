@@ -1,16 +1,22 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
-// import axios from "axios";
+import axios from "axios";
 import "./ChooseArtist.css";
-import { artists } from "../components/data/Artistdata";
+
 import { BsCheck } from "react-icons/bs";
 import { GrSearch } from "react-icons/gr";
-// import API_URL from "../config";
+import API_URL from "../config";
+import useFetch from "../hooks/useFetch";
+import { useSelector } from "react-redux";
 const ChooseArtist = () => {
   const navigate = useNavigate();
 
+  const [data = [], loading, error] = useFetch("/artists");
+
   const [selectedArtist, setselectedArtist] = useState([]);
+
+  const { token } = useSelector((state) => state.account);
 
   function updateSelectedArtistList(id) {
     if (!selectedArtist.includes(id)) {
@@ -21,31 +27,35 @@ const ChooseArtist = () => {
   }
 
   // Function to handle adding an artist to favorites
-  // const addToFavorites = async (artistId) => {
-  //   try {
-  //     // Send a POST request to your backend API
-  //     const response = await axios.post(
-  //       `${API_URL}/api/v1/users/favorite-artist`,
-  //       { artistId }
-  //     );
+  const addToFavorites = async () => {
+    try {
+      const responses = await Promise.all(
+        console.log(responses),
+        selectedArtist.map((id) =>
+          axios.post(
+            `${API_URL}/api/v1/users/favorite-artist`,
+            {
+              artists: [id],
+            },
+            {
+              headers: {
+                authorization: `Bearer ${token}`,
+              },
+            }
+          )
+        )
+      );
 
-  //     // Handle the response
-  //     if (response.status === 200) {
-  //       // Artist successfully added to favorites
-  //       console.log("Artist added to favorites!");
-  //     } else {
-  //       // Handle other response statuses or error cases
-  //       console.error("Failed to add artist to favorites");
-  //     }
-  //   } catch (error) {
-  //     // Handle error
-  //     console.error("Error adding artist to favorites", error);
-  //   }
-  // };
+      navigate("/location");
+    } catch (error) {
+      // Handle error
+      console.error("Error adding artist to favorites", error);
+    }
+  };
 
   const [searchQuery, setSearchQuery] = useState("");
-  const filteredArtists = artists.filter((artist) =>
-    artist.name.includes(searchQuery)
+  const filteredArtists = data.filter((artist) =>
+    artist.name.join(" ").includes(searchQuery)
   );
 
   return (
@@ -80,30 +90,31 @@ const ChooseArtist = () => {
         {/* <Button variant="outline-success">Search</Button> */}
       </Form>
       <p className="text-white container mt-4">Suggested Artists</p>
+      {loading && <h1>Loading</h1>}
+      {error && <h1>{error}</h1>}
       {filteredArtists.map((artist) => (
         <div
-          key={artist.id}
+          key={artist._id}
           className="artistlist"
           onClick={() => {
-            updateSelectedArtistList(artist.id);
-            // addToFavorites(artist.id);
+            updateSelectedArtistList(artist._id);
           }}
         >
-          <div className="d-flex">
+          <div className="d-flex align-items-center justify-content-center">
             <img src={artist.image} alt="artistimage" className="artistimage" />
-            <p className="text-white">{artist.name}</p>
+            <p className="text-white">{artist.name.join(" ")}</p>
           </div>
           <div
             className="checkcircle"
             style={{
-              background: selectedArtist.includes(artist.id)
+              background: selectedArtist.includes(artist._id)
                 ? "#fd7404"
                 : "#fff",
             }}
           >
             <div>
               <BsCheck
-                color={selectedArtist.includes(artist.id) ? "#FFF" : "#a1a1a1"}
+                color={selectedArtist.includes(artist._id) ? "#FFF" : "#a1a1a1"}
                 className="checkmark"
               />
             </div>
@@ -121,7 +132,7 @@ const ChooseArtist = () => {
           variant="primary"
           type="submit"
           className="artist-btn"
-          onClick={() => navigate("/location")}
+          onClick={() => addToFavorites()}
         >
           Continue
         </Button>

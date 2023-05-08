@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Form, InputGroup } from "react-bootstrap";
 import axios from "axios";
@@ -9,6 +9,13 @@ const Location = () => {
   const navigate = useNavigate();
   const [zipcode, setZipcode] = useState("");
   const { updateLocation, setIsLoading } = useContext(LocationContext);
+
+  useEffect(() => {
+    const storedZipcode = localStorage.getItem("zipcode");
+    if (storedZipcode) {
+      setZipcode(storedZipcode);
+    }
+  }, []);
 
   const handleZipcodeChange = (e) => {
     setZipcode(e.target.value);
@@ -22,6 +29,7 @@ const Location = () => {
         const state = response.data.places[0]["state abbreviation"];
         updateLocation(city, state, zipcode);
         setIsLoading(true); // Set isLoading to true
+        localStorage.setItem("zipcode", zipcode); // Store zipcode in localStorage
         navigate("/loading", { state: { zipcode } });
       })
       .catch((error) => {

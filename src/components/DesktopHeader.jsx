@@ -7,8 +7,8 @@ export default function DesktopHeader({ renderSide }) {
   const isLoggedIn = useSelector((state) => state.account.isLoggedIn);
 
   return (
-    <header className="">
-      <img src="/public/assets/Logo_PNG.svg" alt="Logo" />
+    <header className="d-md-block d-none">
+      <img src="/assets/Logo_PNG.svg" alt="Logo" />
       {renderSide &&
         (isLoggedIn ? (
           <div className="">

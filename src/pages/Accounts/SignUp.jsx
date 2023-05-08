@@ -47,7 +47,7 @@ const SignUp = () => {
         // Signup successful
 
         toast.success("Signup successful");
-        navigate("/choose-artist");
+        navigate("/login");
       })
       .catch((error) => {
         // Signup failed

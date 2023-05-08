@@ -10,9 +10,9 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import accountReducer from "../features/account/accountSlice";
-import memoryReducer from "../features/user/memorySlice";
-import discoverReducer from "../features/discover/discoverSlice";
-import cardReducer from "../features/artist/cardSlice";
+// import memoryReducer from "../features/user/memorySlice";
+// import discoverReducer from "../features/discover/discoverSlice";
+// import cardReducer from "../features/artist/cardSlice";
 
 const persistConfig = {
   key: "root",
@@ -22,9 +22,9 @@ const persistConfig = {
 
 const reducer = combineReducers({
   account: accountReducer,
-  memory: memoryReducer,
-  discover: discoverReducer,
-  card: cardReducer,
+  // memory: memoryReducer,
+  // discover: discoverReducer,
+  // card: cardReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

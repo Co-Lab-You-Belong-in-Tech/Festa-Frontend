@@ -211,3 +211,29 @@
   margin-bottom: 46px;
   cursor: pointer;
 }
+
+.no-event {
+  padding-left: 16px;
+  padding-right: 16px;
+  font-size: 24px;
+  color: var(--Orange);
+  text-align: center;
+}
+
+.upcoming-events {
+  padding-bottom: 30%;
+}
+
+.eventimage-container {
+  width: 96px;
+  height: 96px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.eventimage-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}

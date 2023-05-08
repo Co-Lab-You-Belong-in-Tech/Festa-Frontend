@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from "react";
+import { useSelector } from "react-redux";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { Button, Form, InputGroup, Modal } from "react-bootstrap";
@@ -7,9 +8,11 @@ import { LocationContext } from "./LocationContext";
 import { GrSearch } from "react-icons/gr";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { SlLocationPin } from "react-icons/sl";
-import { events, Upcomingevents } from "../components/data/Eventsdata";
-import { Link } from "react-router-dom";
+
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import useFetch from "../hooks/useFetch";
+import AppLayout from "../components/Layout/AppLayout";
 
 // import AppLayout from "../components/Layout/AppLayout";
 
@@ -23,8 +26,8 @@ const Home = () => {
     day: "numeric",
   });
 
-  const [value, onChange] = useState(new Date());
-  const formattedDate = formatter.format(value);
+  const [value, onChange] = useState(null);
+  const formattedDate = value ? formatter.format(value) : null;
   useEffect(() => {}, [value]);
 
   const [fullscreen, setFullscreen] = useState(true);
@@ -93,76 +96,147 @@ const Home = () => {
 
   const [searchQuery, setSearchQuery] = useState("");
 
+  const { isLoggedIn, register_success } = useSelector(
+    (state) => state.account
+  );
+  const account = useSelector((state) => state.account);
+
   return (
-    <div className="home-wrapper">
-      <p className=" container fw-bold">Hi Julia,</p>
-      <p className="container">Get started with your EDM journey!</p>
-      <Form className="d-flex form-search container">
-        <div className="input-group">
-          <div className="input-group-text search-wrapper bg-white">
-            <GrSearch className="text-white search-icon" />
+    <AppLayout>
+      <div className="home-wrapper">
+        <p className=" container fw-bold">
+          Hi {(isLoggedIn || register_success) && account?.name?.split(" ")[0]},
+        </p>
+        <p className="container">Get started with your EDM journey!</p>
+        <Form className="d-flex form-search container">
+          <div className="input-group">
+            <div className="input-group-text search-wrapper bg-white">
+              <GrSearch className="text-white search-icon" />
+            </div>
+            <Form.Control
+              type="search"
+              placeholder="Search all events"
+              className="me-2 search-form"
+              aria-label="Search"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </div>
-          <Form.Control
-            type="search"
-            placeholder="Search all events"
-            className="me-2 search-form"
-            aria-label="Search"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+
+          {/* <Button variant="outline-success">Search</Button> */}
+        </Form>
+
+        <div className="d-flex align-items-center select mt-4">
+          <div
+            className="d-flex align-items-center map "
+            onClick={handleMapShow}
+          >
+            <>
+              <div className="d-flex gap-1">
+                <SlLocationPin className="map-pin" />
+                {location.city && location.state && location.zipcode ? (
+                  <span>
+                    {location.city}, {location.state}
+                  </span>
+                ) : (
+                  <span>Pick location</span>
+                )}
+              </div>
+            </>
+          </div>
+          <div className="d-flex date " onClick={handleShow}>
+            <img src="/assets/discover/calendar.svg" alt="calendar-logo" />
+            <p className="m-0">{formattedDate}</p>
+          </div>
+          <LocationModal
+            showMap={showMap}
+            setShowMap={setShowMap}
+            fullscreen={fullscreen}
+            values={values}
+            handleChange={handleChange}
+            handleMapClose={handleMapClose}
+          />
+          <CalendarModal
+            show={show}
+            setShow={setShow}
+            fullscreen={fullscreen}
+            value={value}
+            onChange={onChange}
+            handleClose={handleClose}
           />
         </div>
 
-        {/* <Button variant="outline-success">Search</Button> */}
-      </Form>
-
-      <div className="d-flex align-items-center select mt-4">
-        <div className="d-flex align-items-center map " onClick={handleMapShow}>
-          <SlLocationPin className="map-pin " />
-          <span>
-            {location.city}, {location.state}
-          </span>
-        </div>
-        <div className="d-flex date " onClick={handleShow}>
-          <img src="/assets/discover/calendar.svg" alt="calendar-logo" />
-          <p className="m-0">{formattedDate}</p>
-        </div>
-        <LocationModal
-          showMap={showMap}
-          setShowMap={setShowMap}
-          fullscreen={fullscreen}
-          values={values}
-          handleChange={handleChange}
-          handleMapClose={handleMapClose}
+        <Recommended
+          calenderFilterDate={value}
+          searchQuery={searchQuery}
+          selectedEvent={selectedEvent}
+          updateSelectedEventList={updateSelectedEventList}
         />
-        <CalendarModal
-          show={show}
-          setShow={setShow}
-          fullscreen={fullscreen}
-          value={value}
-          onChange={onChange}
-          handleClose={handleClose}
-        />
+        <Toast {...toastData} />
       </div>
-
-      <Recommended
-        searchQuery={searchQuery}
-        selectedEvent={selectedEvent}
-        updateSelectedEventList={updateSelectedEventList}
-      />
-      <Toast {...toastData} />
-    </div>
+    </AppLayout>
   );
 };
 
 export default Home;
 
-function Recommended({ searchQuery, selectedEvent, updateSelectedEventList }) {
-  const filteredEvents = events.filter((event) =>
-    event.name.toLowerCase().includes(searchQuery.toLowerCase())
+function Recommended({
+  searchQuery,
+  selectedEvent,
+  updateSelectedEventList,
+  calenderFilterDate,
+}) {
+  const [recommendedData = [], recommendedLoading, recommendedError] = useFetch(
+    "/users/recommend-event"
   );
-  const filteredUpcomingEvents = Upcomingevents.filter((upcomingevent) =>
-    upcomingevent.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+
+  // const filteredEvents = events.filter((event) =>
+  //   event.name.toLowerCase().includes(searchQuery.toLowerCase())
+  // );
+  // console.log(filteredEvents.name);
+
+  const filteredEvents = calenderFilterDate
+    ? recommendedData.filter((event) => {
+        const eventDates = event.date.split("-");
+        const eventMinTime = new Date(eventDates[0]).getTime();
+        const eventMaxTime = new Date(eventDates[1]).getTime();
+        const filterTime = new Date(calenderFilterDate).getTime();
+        const inRange =
+          eventMinTime <= filterTime && filterTime <= eventMaxTime;
+        const matchName = event.name
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase());
+        return inRange && matchName;
+      })
+    : recommendedData;
+
+  // const filteredUpcomingEvents = Upcomingevents.filter((event) =>
+  //   event.name.toLowerCase().includes(searchQuery.toLowerCase())
+  // );
+  const [upcomingData = [], upcomingLoading, upcomingError] =
+    useFetch("/events");
+
+  const filteredUpcomingEvents = calenderFilterDate
+    ? upcomingData.filter((upcomingevent) => {
+        const eventDates = upcomingevent.date.split("-");
+        const eventMinTime = new Date(eventDates[0]).getTime();
+        const eventMaxTime = new Date(eventDates[1]).getTime();
+        const filterTime = new Date(calenderFilterDate).getTime();
+
+        const inRange =
+          eventMinTime <= filterTime && filterTime <= eventMaxTime;
+        const matchName = upcomingevent.name
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase());
+        return inRange && matchName;
+      })
+    : upcomingData;
+
+  const navigate = useNavigate();
+
+  function handleClick(eventId) {
+    navigate(`/event/${eventId}`);
+  }
 
   return (
     <div>
@@ -175,11 +249,21 @@ function Recommended({ searchQuery, selectedEvent, updateSelectedEventList }) {
           View More
         </Link>
       </div>
+      {recommendedLoading && <h1>Loading</h1>}
+      {recommendedError && <h1>{recommendedError}</h1>}
+
+      {filteredEvents.length === 0 && (
+        <h2 className="no-event">No events matched your query</h2>
+      )}
       {filteredEvents.slice(0, 4).map((event) => (
-        <div key={event.id} className="eventlist">
+        <div
+          key={event._id}
+          onClick={() => handleClick(event._id)}
+          className="eventlist"
+        >
           <div className="d-flex justify-between align-start w-100 gap-2">
             <div className="d-flex gap-3 align-center flex-grow-1">
-              <div>
+              <div className="eventimage-container">
                 <img
                   src={event.image}
                   alt="eventimage"
@@ -200,46 +284,54 @@ function Recommended({ searchQuery, selectedEvent, updateSelectedEventList }) {
         </div>
       ))}
 
-      <div className="d-flex justify-content-between align-items-center event-list-header">
-        <p className="fw-bold ">Upcoming Events</p>
-        <Link
-          to="/discover/upcoming-events"
-          className="view-more-button text-decoration-none text-white"
-        >
-          View More
-        </Link>
-      </div>
-      {filteredUpcomingEvents.slice(0, 4).map((upcomingevent) => (
-        <div key={upcomingevent.id} className="eventlist">
-          <div className="d-flex justify-between align-start w-100 gap-2">
-            <div className="d-flex gap-3 align-center flex-grow-1">
-              <div>
-                <img
-                  src={upcomingevent.image}
-                  alt="eventimage"
-                  className="eventimage"
-                />
+      <div className="upcoming-events">
+        <div className="d-flex justify-content-between align-items-center event-list-header">
+          <p className="fw-bold ">Upcoming Events</p>
+          <Link
+            to="/discover/upcoming-events"
+            className="view-more-button text-decoration-none text-white"
+          >
+            View More
+          </Link>
+        </div>
+        {upcomingLoading && <h1>Loading</h1>}
+        {upcomingError && <h1>{upcomingError}</h1>}
+
+        {filteredUpcomingEvents.length === 0 && (
+          <h2 className="no-event">No events matched your query</h2>
+        )}
+        {filteredUpcomingEvents.slice(0, 4).map((upcomingevent) => (
+          <div key={upcomingevent.id} className="eventlist">
+            <div className="d-flex justify-between align-start w-100 gap-2">
+              <div className="d-flex gap-3 align-center flex-grow-1">
+                <div className="eventimage-container">
+                  <img
+                    src={upcomingevent.image}
+                    alt="eventimage"
+                    className="eventimage"
+                  />
+                </div>
+                <div className="eventtext">
+                  <p className="eventtext-paragraph">{upcomingevent.date}</p>
+                  <p className="fw-bold eventname">{upcomingevent.name}</p>
+                  <p className="eventtext-paragraph">{upcomingevent.venue}</p>
+                  <p className="eventtext-paragraph">{upcomingevent.city}</p>
+                </div>
               </div>
-              <div className="eventtext">
-                <p className="eventtext-paragraph">{upcomingevent.date}</p>
-                <p className="fw-bold eventname">{upcomingevent.name}</p>
-                <p className="eventtext-paragraph">{upcomingevent.venue}</p>
-                <p className="eventtext-paragraph">{upcomingevent.city}</p>
+              <div
+                className=""
+                onClick={() => updateSelectedEventList(upcomingevent.id)}
+              >
+                {selectedEvent.includes(upcomingevent.id) ? (
+                  <BsHeartFill />
+                ) : (
+                  <BsHeart />
+                )}
               </div>
-            </div>
-            <div
-              className=""
-              onClick={() => updateSelectedEventList(upcomingevent.id)}
-            >
-              {selectedEvent.includes(upcomingevent.id) ? (
-                <BsHeartFill />
-              ) : (
-                <BsHeart />
-              )}
             </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }
@@ -328,9 +420,7 @@ export function LocationModal({ showMap, setShowMap, handleMapClose }) {
       <Modal.Body>
         <div className="d-flex align-items-center Modalmap">
           <SlLocationPin className="map-pin" />
-          <span>
-            {location.city}, {location.state}
-          </span>
+          {location.city}, {location.state}
         </div>
         <p className="fw-bold location">Add New Location</p>
         <InputGroup className="mb-3">

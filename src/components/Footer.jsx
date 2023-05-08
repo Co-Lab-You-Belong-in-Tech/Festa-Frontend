@@ -1,13 +1,14 @@
 import { Link, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import navItems from "./navItems";
+import "./Footer.css";
 
 export default function Footer({ renderNav }) {
   return (
     <>
       {renderNav && (
-        <div className="fixed bottom-0 left-0 z-20 w-full">
-          <div className="w-full px-5 pt-2 pb-5 bg-white md:hidden drop-shadow-3xl">
+        <div className="position-fixed w-100 bottom-0  w-full d-block d-md-none nav-wrapper">
+          <div className="w-full px-3 py-2 md:hidden drop-shadow-3xl">
             <MobileNavbar />
           </div>
         </div>
@@ -25,10 +26,13 @@ function MobileNavbar() {
 
   return (
     <nav className="flex flex-row gap-[16px] items-center">
-      <ul className="flex items-center justify-between flex-grow gap-5 px-4 sm:px-12">
+      <ul className="d-flex list-unstyled items-center justify-content-between flex-grow gap-5 px-4 sm:px-12">
         {navItems.map((menu) => (
-          <li className="menu-items" key={menu.url}>
-            <Link href={menu.url}>
+          <li key={menu.url}>
+            <Link
+              href={menu.url}
+              className="menu-items d-flex flex-column align-items-center gap-1"
+            >
               <img
                 src={
                   checkUrlMatch(menu.activeUrls, location.pathname)
@@ -36,8 +40,18 @@ function MobileNavbar() {
                     : menu.inactive
                 }
                 alt="menu-items"
-                className="h-9 w-9"
+                className="col mb-1"
               />
+              <p
+                className="menu-name col"
+                style={{
+                  color: checkUrlMatch(menu.activeUrls, location.pathname)
+                    ? "#db27df"
+                    : "#B2B4B8",
+                }}
+              >
+                {menu.name}{" "}
+              </p>
             </Link>
           </li>
         ))}
@@ -47,10 +61,5 @@ function MobileNavbar() {
 }
 
 function checkUrlMatch(array, pathname) {
-  for (let i = 0; i < array.length; i += 1) {
-    if (pathname.indexOf(array[i]) !== -1) {
-      return true;
-    }
-  }
-  return false;
+  return array.includes(pathname);
 }

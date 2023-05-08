@@ -5,9 +5,7 @@
   border-width: 0.5px 0px;
   border-style: solid;
   border-color: #ffffff;
-  padding-top: 12px;
-  padding-bottom: 12px;
-  padding-left: 24px;
+  padding: 12px 24px;
 }
 
 .search-wrapper {

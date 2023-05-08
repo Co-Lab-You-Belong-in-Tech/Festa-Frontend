@@ -21,6 +21,7 @@ import SplashLoading from "./components/SplashLoading";
 import Home from "./pages/Home";
 import RecommendedPage from "./pages/Recommended";
 import UpcomingEvents from "./pages/UpcomingEvents";
+import EventDetails from "./pages/EventPage/EventDetails.jsx";
 
 import { IconContext } from "react-icons";
 import { LocationProvider } from "./pages/LocationContext.jsx";
@@ -76,10 +77,10 @@ const router = createBrowserRouter([
     path: "/discover/upcoming-events",
     element: <UpcomingEvents />,
   },
-  // {
-  //   path: "/zip",
-  //   element: <ZipCode />,
-  // },
+  {
+    path: "/event/:id",
+    element: <EventDetails />,
+  },
 ]);
 
 const persistor = persistStore(store);

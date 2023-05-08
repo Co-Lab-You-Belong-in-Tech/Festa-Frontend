@@ -1,0 +1,11 @@
+.nav-wrapper {
+  background-color: var(--backgroundColor);
+}
+
+a {
+  text-decoration: none;
+}
+
+.menu-name {
+  text-align: center;
+}

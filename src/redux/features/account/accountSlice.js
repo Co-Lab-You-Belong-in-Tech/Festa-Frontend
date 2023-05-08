@@ -1,103 +1,92 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import { login, register } from "./accountApi";
+import LocalStore from "../../store/localStore";
 import API_URL from "../../../config";
 
 export const loginAccount = createAsyncThunk(
-  "api/v1/auth/login",
-  async (args) => {
+  "account/login",
+  async (credentials, { rejectWithValue }) => {
     try {
-      const { email, password } = args;
+      const { email, password } = credentials;
       const response = await login(API_URL, email, password);
+      console.log(response, "login thunk");
       return response;
     } catch (error) {
-      throw new Error(error.message);
+      return rejectWithValue(error.message);
     }
   }
 );
 
 export const registerAccount = createAsyncThunk(
-  "api/v1/auth/signup",
-  async (args) => {
+  "account/register",
+  async (userData, { rejectWithValue }) => {
     try {
-      const { name, password, email } = args;
+      const { name, email, password } = userData;
       const response = await register(API_URL, name, email, password);
       return response;
     } catch (error) {
-      throw new Error(error.message);
+      return rejectWithValue(error.message);
     }
   }
 );
 
-// export const logoutAccount = createAsyncThunk("users/logout", async () => {
-//   const response = await logout(API_URL);
-//   return response;
-// });
-
-export const accountSlice = createSlice({
-  name: "users",
+const accountSlice = createSlice({
+  name: "account",
   initialState: {
     name: null,
     isLoggedIn: false,
     loading: false,
-    register_success: false,
+    error: null,
+    token: null,
   },
   reducers: {
-    resetRegisterSuccess(state) {
-      state.register_success = false;
+    logoutAccount(state) {
+      state.name = null;
+      state.isLoggedIn = false;
+      LocalStore.remove("token");
     },
   },
-  extraReducers: {
-    [loginAccount.pending]: (state) => {
-      state.loading = true;
-    },
-    [loginAccount.fulfilled]: (state, action) => {
-      state.loading = false;
-      state.isLoggedIn = true;
-      const { user } = action.payload;
-      state.name = user.name;
-      const { message } = action.payload;
-      toast.success(message);
-    },
-    [loginAccount.rejected]: (state, action) => {
-      state.loading = false;
-      toast.error(action?.error?.message);
-    },
-    [registerAccount.pending]: (state) => {
-      state.loading = true;
-    },
-    [registerAccount.fulfilled]: (state, action) => {
-      state.loading = false;
-      state.register_success = true;
-      state.isLoggedIn = true;
-      const { user } = action.payload;
-      state.name = user.name;
-      const { message } = action.payload;
-      toast.success(message);
-    },
-    [registerAccount.rejected]: (state, action) => {
-      state.loading = false;
-      toast.error(action?.error?.message);
-    },
-    // [logoutAccount.pending]: (state) => {
-    //   state.loading = true;
-    // },
-    // [logoutAccount.fulfilled]: (state, action) => {
-    //   state.loading = false;
-    //   state.isLoggedIn = false;
-    //   state.name = null;
-    //   state.register_success = false;
-    //   const { message } = action.payload;
-    //   toast.success(message);
-    // },
-    // [logoutAccount.rejected]: (state) => {
-    //   state.loading = false;
-    //   const message = "Something went wrong";
-    //   toast.error(message);
-    // },
+  extraReducers: (builder) => {
+    builder
+      .addCase(loginAccount.pending, (state) => {
+        console.log({ state }, "loading");
+        console.log("loading");
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(loginAccount.fulfilled, (state, action) => {
+        console.log({ state, action }, "fulfilled");
+        state.loading = false;
+        state.isLoggedIn = true;
+
+        state.name = action.payload.payload.data.user.name;
+        state.token = action.payload.payload.token;
+        toast.success(action.payload.message);
+      })
+      .addCase(loginAccount.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        toast.error(action.payload);
+      })
+      .addCase(registerAccount.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(registerAccount.fulfilled, (state, action) => {
+        state.loading = false;
+        state.isLoggedIn = true;
+        state.name = action.payload.user.name;
+        toast.success(action.payload.message);
+      })
+      .addCase(registerAccount.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        toast.error(action.payload);
+      });
   },
 });
 
-export const { resetRegisterSuccess } = accountSlice.actions;
+export const { logoutAccount } = accountSlice.actions;
 
 export default accountSlice.reducer;

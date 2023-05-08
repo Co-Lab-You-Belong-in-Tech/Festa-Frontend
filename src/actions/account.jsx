@@ -72,10 +72,8 @@ export const login =
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          user: {
-            email,
-            password,
-          },
+          email,
+          password,
         }),
       });
       const dataa = await response;

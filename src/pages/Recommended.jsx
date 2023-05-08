@@ -215,14 +215,7 @@ function CalendarModal({
             }
           />
         </div>
-        {/* <Alert
-          color="primary"
-          dismissible
-          visible={visible}
-          onClose={() => setVisible(false)}
-        >
-          Saved Successfully
-        </Alert> */}
+
         <div className="btn-wrap">
           <Button className="save-btn" onClick={handleClose}>
             Save
@@ -270,14 +263,7 @@ function LocationModal({
             required
           />
         </InputGroup>
-        {/* <Alert
-          color="primary"
-          dismissible
-          visible={visible}
-          onClose={() => setVisible(false)}
-        >
-          Saved Successfully
-        </Alert> */}
+
         <div className="btn-wrap">
           <Button className="save-btn-zip" onClick={handleMapClose}>
             Save

@@ -1,24 +1,15 @@
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-// import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import DesktopHeader from "../DesktopHeader";
 import Footer from "../Footer";
-// import { getAllMemories } from "../../redux/features/user/memorySlice";
-// import { getPublicMemories } from "../../redux/features/event/discoverSlice";
-// import moment from "moment/moment";
-// import {
-//   resetCardsState,
-//   setDate,
-// } from "../../redux/features/artist/cardSlice";
 
-function AppLayout({ children, renderSide, renderNav }) {
+function AppLayout({ children, renderSide = false, renderNav = false }) {
   const { isLoggedIn, register_success } = useSelector(
     (state) => state.account
   );
-  //   const date = useSelector((state) => state.card.date);
   const navigate = useNavigate();
   const location = useLocation();
   const protectedRoutes = [
@@ -32,8 +23,10 @@ function AppLayout({ children, renderSide, renderNav }) {
   ];
 
   useEffect(() => {
-    if (isLoggedIn && register_success) {
-      navigate("/");
+    if (!isLoggedIn && protectedRoutes.includes(location.pathname)) {
+      console.log(isLoggedIn);
+      toast.warning("You need to be logged in to access this page");
+      navigate("/login");
     } else if (
       isLoggedIn &&
       (location.pathname === "/login" ||
@@ -42,39 +35,22 @@ function AppLayout({ children, renderSide, renderNav }) {
     ) {
       navigate("/discover");
     }
-  }, [isLoggedIn, register_success]);
-
-  useEffect(() => {
-    if (!isLoggedIn && protectedRoutes.includes(location.pathname)) {
-      toast.warning("You need to be logged in to access this page");
-      navigate("/login");
-    }
-  }, []);
-
-  //   const dispatch = useDispatch();
-
-  //   useEffect(() => {
-  //     if (isLoggedIn) {
-  //       dispatch(getAllMemories());
-  //       dispatch(getPublicMemories());
-  //     }
-
-  //     if (isLoggedIn && moment().format("L") !== date) {
-  //       dispatch(resetCardsState());
-  //       dispatch(setDate(moment().format("L")));
-  //     }
-  //   }, [isLoggedIn]);
+  }, [
+    isLoggedIn,
+    register_success,
+    navigate,
+    location.pathname,
+    protectedRoutes,
+  ]);
 
   return (
     <div className="">
       <DesktopHeader renderSide={renderSide} />
-      {children}
+      {isLoggedIn ? children : null}
       <Footer renderNav={renderNav} />
     </div>
   );
 }
-
-export default AppLayout;
 
 AppLayout.defaultProps = {
   renderSide: true,
@@ -83,4 +59,8 @@ AppLayout.defaultProps = {
 
 AppLayout.propTypes = {
   children: PropTypes.node.isRequired,
+  renderSide: PropTypes.bool,
+  renderNav: PropTypes.bool,
 };
+
+export default AppLayout;
