@@ -1,0 +1,26 @@
+.image-wrap {
+  background: linear-gradient(1.57deg, #000000 -9.39%, rgba(0, 0, 0, 0) 18.92%);
+  place-items: center;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  padding-left: 34px;
+  padding-right: 50px;
+  margin-top: 64px;
+
+  /* width: 375.71px;
+  height: 532px; */
+}
+
+.image-wrap img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 50px;
+}
+
+.image-text {
+  position: relative;
+
+  top: -70px;
+}

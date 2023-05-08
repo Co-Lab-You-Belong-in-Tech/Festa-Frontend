@@ -6,7 +6,7 @@ import "./MobileOnboarding.css";
 export default function MobileOnboarding() {
   const [index, setIndex] = useState(0);
 
-  const handleSelect = (selectedIndex, e) => {
+  const handleSelect = (selectedIndex) => {
     setIndex(selectedIndex);
   };
 

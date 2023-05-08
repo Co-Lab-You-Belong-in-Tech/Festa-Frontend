@@ -9,7 +9,7 @@ function Onboarding() {
   const pageRef = useRef(null);
 
   useEffect(() => {
-    if (domWidth < 1200) {
+    if (domWidth < 1000) {
       setIsMobile(true);
     } else {
       setIsMobile(false);

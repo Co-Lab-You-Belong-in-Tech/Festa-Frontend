@@ -2,12 +2,14 @@ import { useLocation, Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import navItems from "./navItems";
+import { Button } from "react-bootstrap";
+import "./DesktopHeader.css";
 
 export default function DesktopHeader({ renderSide }) {
   const isLoggedIn = useSelector((state) => state.account.isLoggedIn);
 
   return (
-    <header className="d-md-block d-none">
+    <header className="d-md-flex justify-content-between d-none header ">
       <img src="/assets/Logo_PNG.svg" alt="Logo" />
       {renderSide &&
         (isLoggedIn ? (
@@ -15,12 +17,14 @@ export default function DesktopHeader({ renderSide }) {
             <DesktopNavbar />
           </div>
         ) : (
-          <nav className="">
+          <nav className="d-flex">
             <Link to="/register">
-              <p className="text-2xl font-bold cursor-pointer">Sign Up</p>
+              <Button type="" className="text-white auth-button">
+                Sign Up
+              </Button>
             </Link>
             <Link to="/login">
-              <p className="text-2xl font-bold cursor-pointer">Log In</p>
+              <Button className="auth-button">Log In</Button>
             </Link>
           </nav>
         ))}
@@ -34,26 +38,35 @@ DesktopHeader.propTypes = {
 
 function DesktopNavbar() {
   const location = useLocation();
+
   return (
-    <nav className="flex items-center mr-6">
-      <ul className="flex items-end gap-6 ml-auto list-none">
+    <nav className="">
+      <ul className="d-flex list-unstyled items-center justify-content-between flex-grow gap-5 px-4 sm:px-12">
         {navItems.map((menu) => (
-          <li
-            className={`list-none relative h-5 flex items-center cursor-pointer border-0 menu-items ${
-              menu.url === "/discover" && "order-first"
-            }`}
-            key={menu.url}
-          >
-            <Link href={menu.url}>
+          <li key={menu.url}>
+            <Link
+              href={menu.url}
+              className="menu-items d-flex flex-column align-items-center gap-1"
+            >
               <img
                 src={
                   checkUrlMatch(menu.activeUrls, location.pathname)
                     ? menu.active
                     : menu.inactive
                 }
-                alt={menu.url}
-                className="object-contain"
+                alt="menu-items"
+                className="col mb-1"
               />
+              <p
+                className="menu-name col"
+                style={{
+                  color: checkUrlMatch(menu.activeUrls, location.pathname)
+                    ? "#db27df"
+                    : "#B2B4B8",
+                }}
+              >
+                {menu.name}{" "}
+              </p>
             </Link>
           </li>
         ))}
@@ -63,10 +76,5 @@ function DesktopNavbar() {
 }
 
 function checkUrlMatch(array, pathname) {
-  for (let i = 0; i < array.length; i += 1) {
-    if (pathname.indexOf(array[i]) !== -1) {
-      return true;
-    }
-  }
-  return false;
+  return array.includes(pathname);
 }

@@ -46,7 +46,8 @@ function AppLayout({ children, renderSide = false, renderNav = false }) {
   return (
     <div className="">
       <DesktopHeader renderSide={renderSide} />
-      {isLoggedIn ? children : null}
+      {children}
+      {/* {isLoggedIn ? children : null} */}
       <Footer renderNav={renderNav} />
     </div>
   );
