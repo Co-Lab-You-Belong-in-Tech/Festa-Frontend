@@ -3,15 +3,19 @@ import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import "./SignUp.css";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-// import { ThreeDots } from "react-loader-spinner";
+import { useDispatch, useSelector } from "react-redux";
+
+import { ThreeDots } from "react-loader-spinner";
 
 import { toast } from "react-toastify";
-import API_URL from "../../config";
+
+import { registerAccount } from "../../redux/features/account/accountSlice";
 // import { useSelector, useDispatch } from "react-redux";
 
 const SignUp = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const loading = useSelector((state) => state.account.loading);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -30,34 +34,34 @@ const SignUp = () => {
     setPassword(e.target.value);
   };
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
+  // const handleFormSubmit = (e) => {
+  //   e.preventDefault();
 
-    // Create an object with the user's signup data
-    const userData = {
-      name: name,
-      email: email,
-      password: password,
-    };
+  //   // Create an object with the user's signup data
+  //   const userData = {
+  //     name: name,
+  //     email: email,
+  //     password: password,
+  //   };
 
-    // Make an API call to the backend for user signup
-    axios
-      .post(`${API_URL}/api/v1/auth/signup`, userData)
-      .then((response) => {
-        // Signup successful
+  //   // Make an API call to the backend for user signup
+  //   axios
+  //     .post(`${API_URL}/api/v1/auth/signup`, userData)
+  //     .then((response) => {
+  //       // Signup successful
 
-        toast.success("Signup successful");
-        navigate("/login");
-      })
-      .catch((error) => {
-        // Signup failed
-        if (error.response && error.response.status === 409) {
-          setError("Email address is already registered");
-        } else {
-          setError("Signup failed");
-        }
-      });
-  };
+  //       toast.success("Signup successful");
+  //       navigate("/choose-artist");
+  //     })
+  //     .catch((error) => {
+  //       // Signup failed
+  //       if (error.response && error.response.status === 409) {
+  //         setError("Email address is already registered");
+  //       } else {
+  //         setError("Signup failed");
+  //       }
+  //     });
+  // };
 
   // const handleVerifyCode = () => {
   //   const verificationData = {
@@ -86,16 +90,38 @@ const SignUp = () => {
   //     });
   // };
 
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+
+    // Create an object with the user's login credentials
+    const credentials = {
+      name: name,
+      email: email,
+      password: password,
+    };
+
+    try {
+      dispatch(registerAccount(credentials)).then(() => {
+        navigate("/choose-artist");
+      });
+      toast.success("Account created successfully,");
+    } catch (error) {
+      setError("Email address already exist, kindly login to your account");
+      toast.error("Email address already exist, kindly login to your account");
+    }
+  };
   return (
     <div className="container">
-      <div className="img-container">
+      <div className="img-container ">
         <img
           src="/assets/Logo_PNG.svg"
           alt="Logo"
           className="img-fluid mx-auto"
         />
       </div>
-      <h1 className="fw-bold text-left heading">Sign Up</h1>
+      <h1 className="fw-bold lg-text-center text-left signup-heading">
+        Sign Up
+      </h1>
 
       <Form onSubmit={handleFormSubmit}>
         <Form.Group className="mb-3" controlId="formBasicText">
@@ -136,10 +162,9 @@ const SignUp = () => {
         </Form.Group>
 
         <Button className="signup-btn" variant="primary" type="submit">
-          Continue
-          {/* <span className="tracking-[0.02em] text-white text-center font-bold text-3xl flex justify-center">
+          <span className="tracking-[0.02em] text-white text-center font-bold text-3xl flex justify-center">
             {loading ? <ThreeDots color="#fff" height={27} /> : "Continue"}
-          </span> */}
+          </span>
         </Button>
       </Form>
 

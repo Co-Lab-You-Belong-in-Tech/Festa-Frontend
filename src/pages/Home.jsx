@@ -186,6 +186,7 @@ function Recommended({
   updateSelectedEventList,
   calenderFilterDate,
 }) {
+  const options = { month: "long", day: "numeric", year: "numeric" };
   const [recommendedData = [], recommendedLoading, recommendedError] = useFetch(
     "/users/recommend-event"
   );
@@ -271,10 +272,17 @@ function Recommended({
                 />
               </div>
               <div className="eventtext">
-                <p className="eventtext-paragraph">{event.date}</p>
+                <p className="eventtext-paragraph">
+                  {event.start_date
+                    .toLocaleDateString("en-US", options)
+                    .toUpperCase()}{" "}
+                  - {event.end_date}
+                </p>
                 <p className="fw-bold eventname">{event.name}</p>
-                <p className="eventtext-paragraph">{event.venue}</p>
-                <p className="eventtext-paragraph">{event.city}</p>
+                <p className="eventtext-paragraph">{event.venue},</p>
+                <p className="eventtext-paragraph">
+                  {event.city} {event.state}
+                </p>
               </div>
             </div>
             <div className="" onClick={() => updateSelectedEventList(event.id)}>
@@ -301,7 +309,11 @@ function Recommended({
           <h2 className="no-event">No events matched your query</h2>
         )}
         {filteredUpcomingEvents.slice(0, 4).map((upcomingevent) => (
-          <div key={upcomingevent.id} className="eventlist">
+          <div
+            key={upcomingevent._id}
+            onClick={() => handleClick(upcomingevent._id)}
+            className="eventlist"
+          >
             <div className="d-flex justify-between align-start w-100 gap-2">
               <div className="d-flex gap-3 align-center flex-grow-1">
                 <div className="eventimage-container">
@@ -312,10 +324,14 @@ function Recommended({
                   />
                 </div>
                 <div className="eventtext">
-                  <p className="eventtext-paragraph">{upcomingevent.date}</p>
+                  <p className="eventtext-paragraph">
+                    {upcomingevent.start_date} - {upcomingevent.end_date}
+                  </p>
                   <p className="fw-bold eventname">{upcomingevent.name}</p>
-                  <p className="eventtext-paragraph">{upcomingevent.venue}</p>
-                  <p className="eventtext-paragraph">{upcomingevent.city}</p>
+                  <p className="eventtext-paragraph">{upcomingevent.venue},</p>
+                  <p className="eventtext-paragraph">
+                    {upcomingevent.city} {upcomingevent.state}
+                  </p>
                 </div>
               </div>
               <div

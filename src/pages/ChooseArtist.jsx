@@ -30,7 +30,6 @@ const ChooseArtist = () => {
   const addToFavorites = async () => {
     try {
       const responses = await Promise.all(
-        console.log(responses),
         selectedArtist.map((id) =>
           axios.post(
             `${API_URL}/api/v1/users/favorite-artist`,

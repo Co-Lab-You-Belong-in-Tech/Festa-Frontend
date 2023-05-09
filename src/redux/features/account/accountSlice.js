@@ -76,7 +76,8 @@ const accountSlice = createSlice({
       .addCase(registerAccount.fulfilled, (state, action) => {
         state.loading = false;
         state.isLoggedIn = true;
-        state.name = action.payload.user.name;
+        // state.name = action.payload.user.name;
+        state.token = action.payload.payload.token;
         toast.success(action.payload.message);
       })
       .addCase(registerAccount.rejected, (state, action) => {

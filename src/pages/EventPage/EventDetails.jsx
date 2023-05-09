@@ -50,13 +50,16 @@ const EventDetails = () => {
   // Access the properties of the event object
   const {
     name,
-    date,
+    start_date,
+    end_date,
     venue,
+    state,
     city,
     image,
     type,
     age_restriction,
     artists,
+    lineup_link,
     promoter,
     ticket_buying_link,
     price,
@@ -80,10 +83,14 @@ const EventDetails = () => {
       <div className="details-wrapper mt-5 ">
         <div className="d-flex justify-content-between mb-3">
           <div className="eventtext  ">
-            <p className="eventtext-paragraph">{date}</p>
+            <p className="eventtext-paragraph">
+              {start_date} - {end_date}
+            </p>
             <p className="fw-bold eventname">{name}</p>
-            <p className="eventtext-paragraph">{venue}</p>
-            <p className="eventtext-paragraph">{city}</p>
+            <p className="eventtext-paragraph">{venue},</p>
+            <p className="eventtext-paragraph">
+              {city} {state}
+            </p>
           </div>
           <div className="d-flex flex-column right-side">
             <div className="d-flex" onClick={copyToClipboard}>
@@ -133,7 +140,7 @@ const EventDetails = () => {
               </DropdownButton>
             }
           </div>
-          <p className="fw-bold price">{price.split(" - ")[0]}</p>
+          <p className="fw-bold price">{price}</p>
         </div>
         <div>
           <h2>Highlighted Artists</h2>
@@ -149,9 +156,9 @@ const EventDetails = () => {
           <p>
             More Listed{" "}
             <span className="event-link">
-              <a href="https://lasvegas.electricdaisycarnival.com/lineup/">
+              <Link to={lineup_link} target="_blank">
                 HERE
-              </a>
+              </Link>
             </span>
           </p>
         </div>

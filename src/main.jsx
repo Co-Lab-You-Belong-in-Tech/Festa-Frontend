@@ -22,6 +22,7 @@ import Home from "./pages/Home";
 import RecommendedPage from "./pages/Recommended";
 import UpcomingEvents from "./pages/UpcomingEvents";
 import EventDetails from "./pages/EventPage/EventDetails.jsx";
+import Notification from "./pages/Notification.jsx";
 
 import { IconContext } from "react-icons";
 import { LocationProvider } from "./pages/LocationContext.jsx";
@@ -80,6 +81,10 @@ const router = createBrowserRouter([
   {
     path: "/event/:id",
     element: <EventDetails />,
+  },
+  {
+    path: "/notifications",
+    element: <Notification />,
   },
 ]);
 

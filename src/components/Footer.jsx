@@ -30,7 +30,7 @@ function MobileNavbar() {
         {navItems.map((menu) => (
           <li key={menu.url}>
             <Link
-              href={menu.url}
+              to={menu.url}
               className="menu-items d-flex flex-column align-items-center gap-1"
             >
               <img
@@ -50,7 +50,7 @@ function MobileNavbar() {
                     : "#B2B4B8",
                 }}
               >
-                {menu.name}{" "}
+                {menu.name}
               </p>
             </Link>
           </li>
