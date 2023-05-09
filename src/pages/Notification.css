@@ -17,3 +17,12 @@
   font-size: 12px;
   margin: 0;
 }
+
+.ticketlink {
+  color: var(--Orange);
+  text-decoration: underline;
+}
+
+.ticketlink:hover {
+  color: var(--Orange);
+}

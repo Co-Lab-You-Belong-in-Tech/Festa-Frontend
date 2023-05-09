@@ -93,8 +93,9 @@ const EventDetails = () => {
             </p>
           </div>
           <div className="d-flex flex-column right-side">
-            <div className="d-flex" onClick={copyToClipboard}>
+            <div className="d-flex">
               <img
+                onClick={copyToClipboard}
                 src="/public/assets/events/Iconset/Share.svg"
                 alt="share Icon"
               />

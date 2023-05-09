@@ -23,6 +23,7 @@ import RecommendedPage from "./pages/Recommended";
 import UpcomingEvents from "./pages/UpcomingEvents";
 import EventDetails from "./pages/EventPage/EventDetails.jsx";
 import Notification from "./pages/Notification.jsx";
+import Profile from "./pages/Profile.jsx";
 
 import { IconContext } from "react-icons";
 import { LocationProvider } from "./pages/LocationContext.jsx";
@@ -85,6 +86,10 @@ const router = createBrowserRouter([
   {
     path: "/notifications",
     element: <Notification />,
+  },
+  {
+    path: "/profile",
+    element: <Profile />,
   },
 ]);
 

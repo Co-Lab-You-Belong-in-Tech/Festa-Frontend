@@ -81,3 +81,8 @@
 .no-result {
   margin-top: 74px;
 }
+
+.row {
+  max-width: 1000px !important;
+  margin-inline: auto;
+}

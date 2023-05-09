@@ -1,8 +1,16 @@
+import "../../pages/Notification.css";
 export const notifications = [
   {
     image: "/assets/notifications/EDC.png",
     name: "EDC Las Vegas",
-    detail: "Tickets are now on sale! Get it HERE",
+    detail: (
+      <span>
+        Tickets are now on sale! Get it{" "}
+        <a href="#" className="ticketlink">
+          HERE
+        </a>
+      </span>
+    ),
     date: "FEB 02",
     id: 1,
   },

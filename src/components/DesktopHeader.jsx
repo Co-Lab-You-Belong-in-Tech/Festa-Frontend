@@ -45,7 +45,7 @@ function DesktopNavbar() {
         {navItems.map((menu) => (
           <li key={menu.url}>
             <Link
-              href={menu.url}
+              to={menu.url}
               className="menu-items d-flex flex-column align-items-center gap-1"
             >
               <img
