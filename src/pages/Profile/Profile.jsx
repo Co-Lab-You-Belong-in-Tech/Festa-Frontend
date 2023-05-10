@@ -3,6 +3,8 @@ import { Button } from "react-bootstrap";
 import Favorite from "./Favorite";
 import Attending from "./Attending";
 import Following from "./Following";
+import AppLayout from "../../components/Layout/AppLayout";
+import "./Profile.css";
 
 const Profile = () => {
   const [showFavoriteScreen, setShowFavoriteScreen] = useState(true);
@@ -27,38 +29,63 @@ const Profile = () => {
     setShowFollowingScreen(true);
   }
   return (
-    <div>
-      <div className="d-flex justify-content-between">
-        <p>Julia Lyn</p>
-        <Button>Log Out</Button>
+    <AppLayout>
+      <div>
+        <div className="d-flex justify-content-between">
+          <p>Julia Lyn</p>
+          <Button>Log Out</Button>
+        </div>
+        <div className="d-flex justify-content-between">
+          <Button
+            onClick={handleFavoriteButtonClick}
+            style={{
+              background: showFavoriteScreen ? "#fd7404" : "#EEA835",
+            }}
+            className="profile-buttons"
+          >
+            Favorite
+          </Button>
+          <Button
+            onClick={handleAttendingButtonClick}
+            style={{
+              background: showAttendingScreen ? "#fd7404" : "#EEA835",
+            }}
+            className="profile-buttons"
+          >
+            Attending
+          </Button>
+          <Button
+            onClick={handleFollowingButtonClick}
+            style={{
+              background: showFollowingScreen ? "#fd7404" : "#EEA835",
+            }}
+            className="profile-buttons"
+          >
+            Following
+          </Button>
+        </div>
+
+        {showFavoriteScreen && (
+          <div>
+            <Favorite />
+          </div>
+        )}
+
+        {showAttendingScreen && (
+          <div>
+            <h2>Attending Screen</h2>
+            <Attending />
+          </div>
+        )}
+
+        {showFollowingScreen && (
+          <div>
+            <h2>Following Screen</h2>
+            <Following />
+          </div>
+        )}
       </div>
-      <div className="d-flex justify-content-between">
-        <Button onClick={handleFavoriteButtonClick}>Favorite</Button>
-        <Button onClick={handleAttendingButtonClick}>Attending</Button>
-        <Button onClick={handleFollowingButtonClick}>Following</Button>
-      </div>
-
-      {showFavoriteScreen && (
-        <div>
-          <h2>Favorite Screen</h2>
-          <Favorite />
-        </div>
-      )}
-
-      {showAttendingScreen && (
-        <div>
-          <h2>Attending Screen</h2>
-          <Attending />
-        </div>
-      )}
-
-      {showFollowingScreen && (
-        <div>
-          <h2>Following Screen</h2>
-          <Following />
-        </div>
-      )}
-    </div>
+    </AppLayout>
   );
 };
 

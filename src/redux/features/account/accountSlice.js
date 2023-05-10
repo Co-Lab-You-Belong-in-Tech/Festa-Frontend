@@ -61,6 +61,7 @@ const accountSlice = createSlice({
         state.isLoggedIn = true;
 
         state.name = action.payload.payload.data.user.name;
+        state.favorites = action.payload.payload.data.user.favorites;
         state.token = action.payload.payload.token;
         toast.success(action.payload.message);
       })
