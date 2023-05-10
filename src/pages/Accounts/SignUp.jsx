@@ -34,36 +34,6 @@ const SignUp = () => {
     setPassword(e.target.value);
   };
 
-  // const handleFormSubmit = (e) => {
-  //   e.preventDefault();
-
-  //   // Create an object with the user's signup data
-  //   const userData = {
-  //     name: name,
-  //     email: email,
-  //     password: password,
-  //   };
-
-  //   // Make an API call to the backend for user signup
-  //   axios
-  //     .post(`${API_URL}/api/v1/auth/signup`, userData)
-  //     .then((response) => {
-  //       // Signup successful
-
-  //       toast.success("Signup successful");
-  //       navigate("/choose-artist");
-  //     })
-  //     .catch((error) => {
-  //       // Signup failed
-  //       if (error.response && error.response.status === 409) {
-  //         setError("Email address is already registered");
-  //       } else {
-  //         setError("Signup failed");
-  //       }
-  //     });
-  // };
-
-  // const handleVerifyCode = () => {
   //   const verificationData = {
   //     email: email,
   //     code: verificationCode,
@@ -167,27 +137,6 @@ const SignUp = () => {
           </span>
         </Button>
       </Form>
-
-      {/* {verificationCode && (
-        <div>
-          <Form.Group className="mb-3" controlId="formBasicCode">
-            <Form.Label>Verification Code</Form.Label>
-            <Form.Control
-              type="text"
-              value={verificationCode}
-              onChange={(e) => setVerificationCode(e.target.value)}
-              required
-            />
-          </Form.Group>
-          <Button
-            className="verify-btn"
-            variant="primary"
-            onClick={handleVerifyCode}
-          >
-            Verify
-          </Button>
-        </div>
-      )} */}
 
       <p
         onClick={() => navigate("/login")}

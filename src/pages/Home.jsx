@@ -14,10 +14,6 @@ import axios from "axios";
 
 import AppLayout from "../components/Layout/AppLayout";
 
-// import {advancedDatetimeFormat}
-
-// import AppLayout from "../components/Layout/AppLayout";
-
 const weekDays = ["S", "M", "T", "W", "T", "F", "S"];
 
 const Home = () => {

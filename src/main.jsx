@@ -73,11 +73,19 @@ const router = createBrowserRouter([
   },
   {
     path: "/discover/recommended",
-    element: <RecommendedPage />,
+    element: (
+      <LocationProvider>
+        <RecommendedPage />
+      </LocationProvider>
+    ),
   },
   {
     path: "/discover/upcoming-events",
-    element: <UpcomingEvents />,
+    element: (
+      <LocationProvider>
+        <UpcomingEvents />
+      </LocationProvider>
+    ),
   },
   {
     path: "/event/:id",

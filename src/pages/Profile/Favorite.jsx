@@ -1,17 +1,7 @@
-import { useState } from "react";
 import dayjs from "dayjs";
 import { events } from "../../components/data/Eventsdata";
-import { BsHeart, BsHeartFill } from "react-icons/bs";
+import { BsHeartFill } from "react-icons/bs";
 const Favorite = () => {
-  const [selectedEvent, setselectedEvent] = useState([]);
-
-  function updateSelectedEventList(id) {
-    if (!selectedEvent.includes(id)) {
-      setselectedEvent((prev) => [...prev, id]);
-    } else {
-      setselectedEvent((prev) => prev.filter((eventId) => eventId !== id));
-    }
-  }
   return (
     <div>
       {events.slice(0, 4).map((event) => (
@@ -39,15 +29,8 @@ const Favorite = () => {
                     </p>
                   </div>
                 </div>
-                <div
-                  className=""
-                  onClick={() => updateSelectedEventList(event.id)}
-                >
-                  {selectedEvent.includes(event.id) ? (
-                    <BsHeartFill />
-                  ) : (
-                    <BsHeart />
-                  )}
+                <div className="">
+                  <BsHeartFill />
                 </div>
               </div>
             </div>

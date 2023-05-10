@@ -1,8 +1,10 @@
 import { useCallback, useMemo } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
-import dayjs from "dayjs";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+dayjs.extend(customParseFormat);
 
 function Recommended({
   searchQuery,
@@ -18,7 +20,6 @@ function Recommended({
 
   const filterLogic = useCallback(
     (array) => {
-      console.log(searchQuery);
       return calenderFilterDate || searchQuery
         ? array.filter((event) => {
             const eventMinTime = new Date(event.start_date).getTime();
@@ -87,8 +88,13 @@ function Recommended({
                   </div>
                   <div className="eventtext">
                     <p className="eventtext-paragraph text-uppercase">
-                      {dayjs(event.start_date).format("MMMM DD, YYYY")} -{" "}
-                      {dayjs(event.end_date).format("MMMM DD, YYYY")}
+                      {dayjs(event.start_date, "DD/M/YYYY").format(
+                        "MMM DD, YYYY"
+                      )}{" "}
+                      -{" "}
+                      {dayjs(event.end_date, "DD/M/YYYY").format(
+                        "MMM DD, YYYY"
+                      )}
                     </p>
                     <p className="fw-bold eventname">{event.name}</p>
                     <p className="eventtext-paragraph">{event.venue},</p>
@@ -133,7 +139,7 @@ function Recommended({
           <div
             key={upcomingevent._id}
             onClick={() => handleClick(upcomingevent._id)}
-            className="eventlist"
+            className="eventlist md-border-right md-border-left"
           >
             <div className="d-flex justify-between align-start w-100 gap-2">
               <div className="d-flex gap-3 align-center flex-grow-1">
@@ -146,8 +152,13 @@ function Recommended({
                 </div>
                 <div className="eventtext">
                   <p className="eventtext-paragraph text-uppercase">
-                    {dayjs(upcomingevent.start_date).format("MMMM DD, YYYY")} -{" "}
-                    {dayjs(upcomingevent.end_date).format("MMMM DD, YYYY")}
+                    {dayjs(upcomingevent.start_date, "DD/M/YYYY").format(
+                      "MMM DD, YYYY"
+                    )}{" "}
+                    -{" "}
+                    {dayjs(upcomingevent.end_date, "DD/M/YYYY").format(
+                      "MMM DD, YYYY"
+                    )}
                   </p>
                   <p className="fw-bold eventname">{upcomingevent.name}</p>
                   <p className="eventtext-paragraph">{upcomingevent.venue},</p>

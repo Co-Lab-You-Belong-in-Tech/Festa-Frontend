@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { Button } from "react-bootstrap";
 import Favorite from "./Favorite";
 import Attending from "./Attending";
@@ -7,6 +8,11 @@ import AppLayout from "../../components/Layout/AppLayout";
 import "./Profile.css";
 
 const Profile = () => {
+  const { isLoggedIn, register_success } = useSelector(
+    (state) => state.account
+  );
+  const account = useSelector((state) => state.account);
+
   const [showFavoriteScreen, setShowFavoriteScreen] = useState(true);
   const [showAttendingScreen, setShowAttendingScreen] = useState(false);
   const [showFollowingScreen, setShowFollowingScreen] = useState(false);
@@ -31,11 +37,14 @@ const Profile = () => {
   return (
     <AppLayout>
       <div>
-        <div className="d-flex justify-content-between">
-          <p>Julia Lyn</p>
-          <Button>Log Out</Button>
+        <div className="d-flex justify-content-between profile-header">
+          <p className="fw-bold">
+            {" "}
+            {(isLoggedIn || register_success) && account?.name}
+          </p>
+          <Button className="logout-btn">Log Out</Button>
         </div>
-        <div className="d-flex justify-content-between">
+        <div className="d-flex justify-content-between pt-4 pb-4 profile-buttons-wrapper">
           <Button
             onClick={handleFavoriteButtonClick}
             style={{
@@ -73,14 +82,12 @@ const Profile = () => {
 
         {showAttendingScreen && (
           <div>
-            <h2>Attending Screen</h2>
             <Attending />
           </div>
         )}
 
         {showFollowingScreen && (
           <div>
-            <h2>Following Screen</h2>
             <Following />
           </div>
         )}
