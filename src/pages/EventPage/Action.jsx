@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-// import useFetch from "../../hooks/useFetch";
+import useFetch from "../../hooks/useFetch";
 import { Dropdown, DropdownButton, ButtonGroup } from "react-bootstrap";
 import { VscCheck } from "react-icons/vsc";
 import { RxQuestionMark } from "react-icons/rx";
@@ -9,7 +9,7 @@ import API_URL from "../../config";
 
 function ActionComponent() {
   const { id } = useParams();
-  //   const [data] = useFetch(`/events/${id}`);
+  const [data] = useFetch(`/events/${id}`);
   const handleDropdownSelection = (eventKey) => {
     switch (eventKey) {
       case "2":

@@ -14,6 +14,7 @@ const Attending = () => {
       setselectedEvent((prev) => prev.filter((eventId) => eventId !== id));
     }
   }
+
   return (
     <div>
       {Attendingdata.map((event) => (

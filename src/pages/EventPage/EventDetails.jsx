@@ -1,82 +1,62 @@
-// import { useSelector } from "react-redux";
-import {
-  Badge,
-  Button,
-  // ButtonGroup,
-  // Dropdown,
-  // DropdownButton,
-} from "react-bootstrap";
+import { Badge, Button } from "react-bootstrap";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { BsArrowLeftShort, BsHeart, BsBookmark } from "react-icons/bs";
-// import { VscCheck } from "react-icons/vsc";
-// import { RxQuestionMark } from "react-icons/rx";
+import { BsArrowLeftShort, BsHeart } from "react-icons/bs";
+
 import useFetch from "../../hooks/useFetch";
 
 import "./EventDetails.css";
 import { useCallback } from "react";
 import { toast } from "react-toastify";
-import moment from "moment";
+import moment from "moment-timezone";
 import LoadingScreen from "../../components/Loading";
-// import ActionComponent from "./Action";
-// import API_URL from "../../config";
+
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import ActionComponent from "./Action";
 dayjs.extend(customParseFormat);
-// import { DateTime } from "luxon";
 
 const EventDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [data, loading, error] = useFetch(`/events/${id}`);
 
-  // const { pathname, origin } = window.location;
-
   const copyToClipboard = useCallback(() => {
-    const startdateString = start_date;
-    const enddateString = end_date;
-    const startdate = moment(startdateString, "DD-MM-YYYY").toDate();
-    const enddate = moment(enddateString, "DD-MM-YYYY").toDate();
-    console.log(enddate);
+    const { name, start_date, end_date, venue, state, city, time } = data;
 
-    const timeRegex = /(\d+)(am|pm) - (\d+)(am|pm) PT/;
-    const match = time.match(timeRegex);
+    // Get start and end times in PT
+    const [start_time_str, end_time_str] = time.split(" - ");
+    const start_time_moment = moment.tz(
+      `${start_date} ${start_time_str}`,
+      "DD-MM-YYYY h:mma",
+      "America/Los_Angeles"
+    );
 
-    const startHour = parseInt(match[1]) + (match[2] === "pm" ? 12 : 0);
+    const end_time_moment = moment.tz(
+      `${end_date} ${end_time_str}`,
+      "DD-MM-YYYY h:mma",
+      "America/Los_Angeles"
+    );
 
-    const endHour = parseInt(match[3]) + (match[4] === "pm" ? 12 : 0);
-
-    const startDateObj = new Date(startdate);
-    startDateObj.setHours(startHour); // Set the hours to 5 PM
-    startDateObj.setMinutes(0); // Set the minutes to 0
-    startDateObj.setSeconds(0);
-    const startDateTime = startDateObj.toISOString();
-    console.log(startDateTime, "start");
-
-    const endDateObj = new Date(enddate);
-    endDateObj.setHours(endHour); // Set the hours to 2 AM
-    endDateObj.setMinutes(0); // Set the minutes to 0
-    endDateObj.setSeconds(0);
-    const endDateTime = endDateObj.toISOString();
-
-    console.log(endDateTime, "end");
-
+    const start_utc = start_time_moment.utc().format("YYYYMMDDTHHmmSS[Z]");
+    const end_utc = end_time_moment.utc().format("YYYYMMDDTHHmmSS[Z]");
+    console.log(start_utc, "start_utc");
+    console.log(end_utc, "end_utc");
     const icsFileContent = `BEGIN:VCALENDAR
 VERSION:2.0
 BEGIN:VEVENT
-DTSTART:${startDateTime}
-DTEND:${endDateTime}
+DTSTART:${start_utc}
+DTEND:${end_utc}
 SUMMARY:${name}
 LOCATION:${venue}, ${city}, ${state}
 DESCRIPTION:${name} at ${venue}
 END:VEVENT
-END:VCALENDAR`.replace(/\n\s*/g, "");
+END:VCALENDAR`;
 
+    // Create download link and trigger click
     const blob = new Blob([icsFileContent], {
       type: "text/calendar;charset=utf-8",
     });
     const url = URL.createObjectURL(blob);
-
     const link = document.createElement("a");
     link.href = url;
     link.download = `${name.replace(/\s/g, "")}.ics`;
@@ -84,6 +64,7 @@ END:VCALENDAR`.replace(/\n\s*/g, "");
     link.click();
     document.body.removeChild(link);
 
+    // Show success message
     toast("Event added to calendar");
   }, [data]);
 
@@ -112,7 +93,6 @@ END:VCALENDAR`.replace(/\n\s*/g, "");
     state,
     city,
     image,
-    time,
     type,
     age_restriction,
     artists,
@@ -121,51 +101,12 @@ END:VCALENDAR`.replace(/\n\s*/g, "");
     ticket_buying_link,
     price,
   } = data;
-  // const title = (
-  //   <span>
-  //     <BsBookmark /> <span style={{ marginLeft: "0.5rem" }}>Event</span>
-  //   </span>
-  // );
-
-  // const handleDropdownSelection = (eventKey) => {
-  //   switch (eventKey) {
-  //     case "2":
-  //       sendAction("interested");
-  //       break;
-  //     case "3":
-  //       sendAction("maybe");
-  //       break;
-  //     case "4":
-  //       sendAction("attending");
-  //       break;
-  //     default:
-  //       break;
-  //   }
-  // };
-  // const { token } = useSelector((state) => state.account);
-  // const sendAction = (action) => {
-  //   // Make a request to the backend API endpoint using fetch or axios
-  //   fetch(`${API_URL}/api/v1/users/action/${id}?action=${action}`, {
-  //     method: "PATCH",
-  //     body: JSON.stringify({ action }),
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       authorization: `Bearer ${token}`,
-  //     },
-  //   })
-  //     .then((response) => {
-  //       // Handle response from the backend API
-  //     })
-  //     .catch((error) => {
-  //       // Handle error from the backend API
-  //     });
-  // };
 
   return (
     <div>
       <div style={{ position: "relative" }}>
         <BsArrowLeftShort onClick={() => navigate(-1)} className="to-back" />
-        {/* <img src="/assets/events/EDC Vegas 2023 1.png" alt="EDC Vegas" /> */}
+
         <span className="image-wrapper">
           <img src={image} alt={image} />
         </span>
