@@ -2,6 +2,7 @@ import { useCallback, useMemo } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
+import LoadingScreen from "../../components/Loading";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 dayjs.extend(customParseFormat);
@@ -63,7 +64,7 @@ function Recommended({
           View More
         </Link>
       </div>
-      {recommendedLoading && <h1>Loading</h1>}
+      {recommendedLoading && <LoadingScreen />}
       {recommendedError && <h1>{recommendedError}</h1>}
 
       {filteredEvents.length === 0 && !recommendedLoading && (
@@ -129,7 +130,7 @@ function Recommended({
             View More
           </Link>
         </div>
-        {upcomingLoading && <h1>Loading</h1>}
+        {upcomingLoading && <LoadingScreen />}
         {upcomingError && <h1>{upcomingError}</h1>}
 
         {filteredUpcomingEvents.length === 0 && !upcomingLoading && (

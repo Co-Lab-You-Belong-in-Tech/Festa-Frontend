@@ -1,9 +1,11 @@
 import { useState } from "react";
+import useFetch from "../../hooks/useFetch";
 import dayjs from "dayjs";
-import { events } from "../../components/data/Eventsdata";
+// import { events } from "../../components/data/Eventsdata";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 const Attending = () => {
   const [selectedEvent, setselectedEvent] = useState([]);
+  const [Attendingdata = []] = useFetch(`/users/action?action=attending`);
 
   function updateSelectedEventList(id) {
     if (!selectedEvent.includes(id)) {
@@ -14,7 +16,7 @@ const Attending = () => {
   }
   return (
     <div>
-      {events.slice(0, 4).map((event) => (
+      {Attendingdata.map((event) => (
         <div className="row" key={event.id}>
           <div className="col-12 col-md-6 md-p-3">
             <div className="eventlist">
