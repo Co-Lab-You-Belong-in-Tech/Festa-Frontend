@@ -208,11 +208,11 @@ function Recommended({
 
   return (
     <div className="row">
-      {filteredEvents.slice(0, 4).map((event) => (
+      {filteredEvents.map((event) => (
         <div
           key={event._id}
           onClick={() => handleClick(event._id)}
-          className="col-12 col-md-6 md-p-3"
+          className="col-12 col-md-6 md-p-3 mt-4"
         >
           <div className="eventlist">
             <div className="d-flex justify-between align-start w-100 gap-2">

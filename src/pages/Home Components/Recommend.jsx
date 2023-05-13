@@ -86,11 +86,7 @@ function Recommended({
       )}
       <div className="row">
         {filteredEvents.slice(0, 4).map((event) => (
-          <div
-            key={event._id}
-            onClick={(e) => handleClick(e, event._id)}
-            className="col-12 col-md-6 md-p-3"
-          >
+          <div key={event._id} className="col-12 col-md-6 md-p-3">
             <div className="eventlist">
               <div className="d-flex justify-between align-start w-100 gap-2">
                 <div className="d-flex gap-3 align-center flex-grow-1">
