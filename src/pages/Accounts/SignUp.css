@@ -16,7 +16,7 @@ div.container {
 }
 
 .img-container {
-  display: grid;
+  /* display: grid; */
   place-items: center;
 }
 
@@ -37,6 +37,12 @@ div.container {
   background-color: var(--purple);
 }
 
+@media (min-width: 768px) {
+  .bottom-wrap {
+    margin-top: 126px !important;
+  }
+}
+
 /* @media (min-width: 1000px) {
   .input-form {
     width: 50%;
@@ -46,5 +52,10 @@ div.container {
   }
   .heading {
     font-size: 24px;
+  }
+} */
+/* @media (min-width: 768px) {
+  .img-container {
+    display: none;
   }
 } */
