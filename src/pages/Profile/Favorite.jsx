@@ -4,7 +4,6 @@ import { BsHeartFill } from "react-icons/bs";
 const Favorite = () => {
   return (
     <div>
-      {events.length === 0 && <p>No Favorite Event </p>}
       {events.slice(0, 4).map((event) => (
         <div className="row" key={event.id}>
           <div className="col-12 col-md-6 md-p-3">
@@ -38,6 +37,7 @@ const Favorite = () => {
           </div>
         </div>
       ))}
+      {events.length === 0 && <p>No Favorite Event </p>}
     </div>
   );
 };
