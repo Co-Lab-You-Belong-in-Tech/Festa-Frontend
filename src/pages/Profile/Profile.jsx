@@ -6,6 +6,7 @@ import Attending from "./Attending";
 import Following from "./Following";
 import AppLayout from "../../components/Layout/AppLayout";
 import "./Profile.css";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const { isLoggedIn, register_success } = useSelector(
@@ -34,6 +35,17 @@ const Profile = () => {
     setShowAttendingScreen(false);
     setShowFollowingScreen(true);
   }
+
+  const navigate = useNavigate();
+
+  function handleLogout() {
+    localStorage.clear();
+    // Redirect the user to the login page or homepage
+    navigate("/login");
+  }
+
+  <button onClick={handleLogout}>Log out</button>;
+
   return (
     <AppLayout>
       <div>
@@ -42,7 +54,9 @@ const Profile = () => {
             {" "}
             {(isLoggedIn || register_success) && account?.name}
           </p>
-          <Button className="logout-btn">Log Out</Button>
+          <Button className="logout-btn" onClick={handleLogout}>
+            Log Out
+          </Button>
         </div>
         <div className="d-flex justify-content-between pt-4 pb-4 profile-buttons-wrapper">
           <Button
