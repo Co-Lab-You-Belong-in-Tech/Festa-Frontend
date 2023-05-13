@@ -17,18 +17,29 @@ export default function DesktopHeader({ renderSide }) {
             <DesktopNavbar />
           </div>
         ) : (
-          <nav className="d-flex">
-            <Link to="/register">
-              <Button type="" className="text-white auth-button">
-                Sign Up
-              </Button>
-            </Link>
-            <Link to="/login">
-              <Button className="auth-button">Log In</Button>
-            </Link>
-          </nav>
+          <AuthCTA />
         ))}
     </header>
+  );
+}
+
+function AuthCTA() {
+  const { pathname } = useLocation();
+  const isOnRegister = pathname.includes("register");
+  return (
+    <nav className="d-flex">
+      {isOnRegister ? (
+        <Link to="/login">
+          <Button className="auth-button">Log In</Button>
+        </Link>
+      ) : (
+        <Link to="/register">
+          <Button type="" className="text-white auth-button">
+            Sign Up
+          </Button>
+        </Link>
+      )}
+    </nav>
   );
 }
 
