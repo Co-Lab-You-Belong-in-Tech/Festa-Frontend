@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Button } from "react-bootstrap";
 import Favorite from "./Favorite";
 import Attending from "./Attending";
@@ -7,6 +7,7 @@ import Following from "./Following";
 import AppLayout from "../../components/Layout/AppLayout";
 import "./Profile.css";
 import { useNavigate } from "react-router-dom";
+import { logoutAccount } from "../../redux/features/account/accountSlice";
 
 const Profile = () => {
   const { isLoggedIn, register_success } = useSelector(
@@ -37,14 +38,12 @@ const Profile = () => {
   }
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   function handleLogout() {
-    localStorage.clear();
-    // Redirect the user to the login page or homepage
+    dispatch(logoutAccount());
     navigate("/login");
   }
-
-  <button onClick={handleLogout}>Log out</button>;
 
   return (
     <AppLayout>

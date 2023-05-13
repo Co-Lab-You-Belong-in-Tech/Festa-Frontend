@@ -1,8 +1,8 @@
-import AppLayout from "../components/Layout/AppLayout";
-import { notifications } from "../components/data/NotificationsData";
+import AppLayout from "../../components/Layout/AppLayout";
+import { notifications } from "../../components/data/NotificationsData";
 import "./Notification.css";
 
-const Notification = () => {
+const MobileNotification = () => {
   return (
     <AppLayout>
       <div>
@@ -40,4 +40,4 @@ const Notification = () => {
   );
 };
 
-export default Notification;
+export default MobileNotification;

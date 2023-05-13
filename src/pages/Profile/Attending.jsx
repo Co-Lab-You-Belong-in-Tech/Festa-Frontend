@@ -17,6 +17,7 @@ const Attending = () => {
 
   return (
     <div>
+      {Attendingdata.length === 0 && <p>No Event </p>}
       {Attendingdata.map((event) => (
         <div className="row" key={event.id}>
           <div className="col-12 col-md-6 md-p-3">

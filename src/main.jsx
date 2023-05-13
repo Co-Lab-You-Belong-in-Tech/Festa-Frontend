@@ -22,7 +22,7 @@ import Home from "./pages/Home";
 import RecommendedPage from "./pages/Recommended";
 import UpcomingEvents from "./pages/UpcomingEvents";
 import EventDetails from "./pages/EventPage/EventDetails.jsx";
-import Notification from "./pages/Notification.jsx";
+import Notification from "./pages/Notification/Notification";
 import Profile from "./pages/Profile/Profile.jsx";
 
 import { IconContext } from "react-icons";

@@ -45,7 +45,7 @@ const SignIn = () => {
     }
   };
   return (
-    <AppLayout>
+    <AppLayout renderNav={false}>
       <div className="container">
         <div className="img-container">
           <img

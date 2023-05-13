@@ -1,4 +1,4 @@
-import "../../pages/Notification.css";
+import "../../pages/Notification/Notification.css";
 export const notifications = [
   {
     image: "/assets/notifications/EDC.png",

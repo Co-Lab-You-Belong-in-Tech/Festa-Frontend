@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useCallback } from "react";
 import { useSelector } from "react-redux";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
@@ -7,6 +7,7 @@ import "./Home.css";
 import { LocationContext } from "./LocationContext";
 import Recommended from "./Home Components/Recommend";
 import { GrSearch } from "react-icons/gr";
+import API_URL from "../config";
 
 import { SlLocationPin } from "react-icons/sl";
 
@@ -81,14 +82,47 @@ const Home = () => {
   };
 
   const [selectedEvent, setselectedEvent] = useState([]);
+  const { token } = useSelector((state) => state.account);
 
-  function updateSelectedEventList(id) {
-    if (!selectedEvent.includes(id)) {
-      setselectedEvent((prev) => [...prev, id]);
-    } else {
-      setselectedEvent((prev) => prev.filter((eventId) => eventId !== id));
-    }
-  }
+  const updateSelectedEventList = useCallback(
+    async (id) => {
+      try {
+        const response = await axios.patch(
+          `${API_URL}/api/v1/events/${id}/favorite`,
+          undefined,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        // console.log("response:", response);
+
+        if (response.status === 200) {
+          setselectedEvent((prev) => {
+            if (!prev.includes(id)) {
+              return [...prev, id];
+            } else {
+              return prev.filter((eventId) => eventId !== id);
+            }
+          });
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    [selectedEvent]
+  );
+
+  // function updateSelectedEventList(id) {
+
+  //   if (!selectedEvent.includes(id)) {
+  //     setselectedEvent((prev) => [...prev, id]);
+  //   } else {
+  //     setselectedEvent((prev) => prev.filter((eventId) => eventId !== id));
+  //   }
+  // }
 
   const [toastData, setToastData] = useState({ text: "", show: false });
 
@@ -106,62 +140,64 @@ const Home = () => {
           Hi {(isLoggedIn || register_success) && account?.name?.split(" ")[0]},
         </p>
         <p className="container">Get started with your EDM journey!</p>
-        <Form className="d-flex form-search container">
-          <div className="input-group">
-            <div className="input-group-text search-wrapper bg-white">
-              <GrSearch className="text-white search-icon" />
+        <div className="d-md-grid d-block">
+          <Form className="d-flex form-search container">
+            <div className="input-group">
+              <div className="input-group-text search-wrapper bg-white">
+                <GrSearch className="text-white search-icon" />
+              </div>
+              <Form.Control
+                type="search"
+                placeholder="Search all events"
+                className="me-2 search-form"
+                aria-label="Search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
             </div>
-            <Form.Control
-              type="search"
-              placeholder="Search all events"
-              className="me-2 search-form"
-              aria-label="Search"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+
+            {/* <Button variant="outline-success">Search</Button> */}
+          </Form>
+
+          <div className="d-flex align-items-center select mt-4">
+            <div
+              className="d-flex align-items-center map "
+              onClick={handleMapShow}
+            >
+              <>
+                <div className="d-flex gap-1">
+                  <SlLocationPin className="map-pin" />
+                  {location.city && location.state && location.zipcode ? (
+                    <span>
+                      {location.city}, {location.state}
+                    </span>
+                  ) : (
+                    <span>Pick location</span>
+                  )}
+                </div>
+              </>
+            </div>
+            <div className="d-flex date " onClick={handleShow}>
+              <img src="/assets/discover/calendar.svg" alt="calendar-logo" />
+              <p className="m-0">{formattedDate}</p>
+            </div>
+            <LocationModal
+              showMap={showMap}
+              setShowMap={setShowMap}
+              fullscreen={fullscreen}
+              values={values}
+              handleChange={handleChange}
+              handleMapClose={handleMapClose}
+            />
+            <CalendarModal
+              show={show}
+              setShow={setShow}
+              fullscreen={fullscreen}
+              value={value}
+              onChange={onChange}
+              handleClose={handleClose}
             />
           </div>
-
-          {/* <Button variant="outline-success">Search</Button> */}
-        </Form>
-
-        <div className="d-flex align-items-center select mt-4">
-          <div
-            className="d-flex align-items-center map "
-            onClick={handleMapShow}
-          >
-            <>
-              <div className="d-flex gap-1">
-                <SlLocationPin className="map-pin" />
-                {location.city && location.state && location.zipcode ? (
-                  <span>
-                    {location.city}, {location.state}
-                  </span>
-                ) : (
-                  <span>Pick location</span>
-                )}
-              </div>
-            </>
-          </div>
-          <div className="d-flex date " onClick={handleShow}>
-            <img src="/assets/discover/calendar.svg" alt="calendar-logo" />
-            <p className="m-0">{formattedDate}</p>
-          </div>
-          <LocationModal
-            showMap={showMap}
-            setShowMap={setShowMap}
-            fullscreen={fullscreen}
-            values={values}
-            handleChange={handleChange}
-            handleMapClose={handleMapClose}
-          />
-          <CalendarModal
-            show={show}
-            setShow={setShow}
-            fullscreen={fullscreen}
-            value={value}
-            onChange={onChange}
-            handleClose={handleClose}
-          />
         </div>
 
         <Recommended

@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
@@ -18,6 +18,8 @@ function Recommended({
   );
   const [upcomingData = [], upcomingLoading, upcomingError] =
     useFetch("/events");
+
+  const hertIconRef = useRef(null);
 
   const filterLogic = useCallback(
     (array) => {
@@ -49,9 +51,21 @@ function Recommended({
   );
   const navigate = useNavigate();
 
-  function handleClick(eventId) {
+  const goToDetails = useCallback((eventId) => {
     navigate(`/event/${eventId}`);
-  }
+  }, []);
+
+  const handleHeartClick = (e, eventId) => {
+    console.dir(e.target);
+    e.stopPropagation();
+    if (e.target.className === "heart-icon") {
+      updateSelectedEventList(eventId);
+    }
+  };
+
+  const likeEvent = useCallback((id) => {
+    updateSelectedEventList(id);
+  }, []);
 
   return (
     <div className="container">
@@ -74,7 +88,7 @@ function Recommended({
         {filteredEvents.slice(0, 4).map((event) => (
           <div
             key={event._id}
-            onClick={() => handleClick(event._id)}
+            onClick={(e) => handleClick(e, event._id)}
             className="col-12 col-md-6 md-p-3"
           >
             <div className="eventlist">
@@ -105,10 +119,11 @@ function Recommended({
                   </div>
                 </div>
                 <div
-                  className=""
-                  onClick={() => updateSelectedEventList(event.id)}
+                  ref={hertIconRef}
+                  className="heart-icon"
+                  onClick={(e) => handleHeartClick(e, event._id)}
                 >
-                  {selectedEvent.includes(event.id) ? (
+                  {selectedEvent.includes(event._id) ? (
                     <BsHeartFill />
                   ) : (
                     <BsHeart />
@@ -137,49 +152,13 @@ function Recommended({
           <h2 className="no-event">No events matched your query</h2>
         )}
         {filteredUpcomingEvents.slice(0, 4).map((upcomingevent) => (
-          <div
+          <EventList
             key={upcomingevent._id}
-            onClick={() => handleClick(upcomingevent._id)}
-            className="eventlist md-border-right md-border-left"
-          >
-            <div className="d-flex justify-between align-start w-100 gap-2">
-              <div className="d-flex gap-3 align-center flex-grow-1">
-                <div className="eventimage-container">
-                  <img
-                    src={upcomingevent.image}
-                    alt="eventimage"
-                    className="eventimage"
-                  />
-                </div>
-                <div className="eventtext">
-                  <p className="eventtext-paragraph text-uppercase">
-                    {dayjs(upcomingevent.start_date, "DD/M/YYYY").format(
-                      "MMM DD, YYYY"
-                    )}{" "}
-                    -{" "}
-                    {dayjs(upcomingevent.end_date, "DD/M/YYYY").format(
-                      "MMM DD, YYYY"
-                    )}
-                  </p>
-                  <p className="fw-bold eventname">{upcomingevent.name}</p>
-                  <p className="eventtext-paragraph">{upcomingevent.venue},</p>
-                  <p className="eventtext-paragraph">
-                    {upcomingevent.city} {upcomingevent.state}
-                  </p>
-                </div>
-              </div>
-              <div
-                className=""
-                onClick={() => updateSelectedEventList(upcomingevent.id)}
-              >
-                {selectedEvent.includes(upcomingevent.id) ? (
-                  <BsHeartFill />
-                ) : (
-                  <BsHeart />
-                )}
-              </div>
-            </div>
-          </div>
+            {...upcomingevent}
+            selectedEvent={selectedEvent}
+            goToDetails={goToDetails}
+            likeEvent={likeEvent}
+          />
         ))}
       </div>
     </div>
@@ -187,3 +166,59 @@ function Recommended({
 }
 
 export default Recommended;
+
+function EventList({
+  _id,
+  image,
+  start_date,
+  end_date,
+  name,
+  venue,
+  state,
+  city,
+  selectedEvent,
+  likeEvent,
+  goToDetails,
+}) {
+  const heartIconRef = useRef(null);
+
+  const onClick = useCallback(
+    (e) => {
+      if (heartIconRef.current.contains(e.target)) {
+        likeEvent(_id);
+      } else {
+        goToDetails(_id);
+      }
+    },
+    [_id, likeEvent, goToDetails]
+  );
+  return (
+    <div
+      key={_id}
+      onClick={onClick}
+      className="eventlist md-border-right md-border-left"
+    >
+      <div className="d-flex justify-between align-start w-100 gap-2">
+        <div className="d-flex gap-3 align-center flex-grow-1">
+          <div className="eventimage-container">
+            <img src={image} alt="eventimage" className="eventimage" />
+          </div>
+          <div className="eventtext">
+            <p className="eventtext-paragraph text-uppercase">
+              {dayjs(start_date, "DD/M/YYYY").format("MMM DD, YYYY")} -{" "}
+              {dayjs(end_date, "DD/M/YYYY").format("MMM DD, YYYY")}
+            </p>
+            <p className="fw-bold eventname">{name}</p>
+            <p className="eventtext-paragraph">{venue},</p>
+            <p className="eventtext-paragraph">
+              {city} {state}
+            </p>
+          </div>
+        </div>
+        <div ref={heartIconRef} className="heart-icon">
+          {selectedEvent.includes(_id) ? <BsHeartFill /> : <BsHeart />}
+        </div>
+      </div>
+    </div>
+  );
+}

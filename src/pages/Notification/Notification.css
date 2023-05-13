@@ -26,3 +26,16 @@
 .ticketlink:hover {
   color: var(--Orange);
 }
+
+.popover,
+.popover-header {
+  background-color: var(--purple);
+}
+
+.bs-popover-bottom > .popover-arrow::before {
+  border-bottom-color: var(--purple);
+}
+
+.bs-popover-bottom > .popover-arrow::after {
+  border-bottom-color: var(--purple);
+}

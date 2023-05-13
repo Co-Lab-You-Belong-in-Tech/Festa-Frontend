@@ -82,7 +82,7 @@ const SignUp = () => {
     }
   };
   return (
-    <AppLayout>
+    <AppLayout renderNav={false}>
       <div className="container">
         <div className="img-container d-grid d-md-none ">
           <img
