@@ -43,7 +43,7 @@ const SplashLoading = () => {
   return (
     <div className="wrapper">
       <div>
-        <img src="/public/assets/splashScreen/FirstImage.png" alt="" />
+        <img src="/assets/splashScreen/FirstImage.png" alt="" />
         <p className="text-white text-center fw-bold">
           Welcome Dreamers, <br /> building your experience
         </p>

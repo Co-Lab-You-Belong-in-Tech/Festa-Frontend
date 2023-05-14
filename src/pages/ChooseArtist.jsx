@@ -9,6 +9,7 @@ import { GrSearch } from "react-icons/gr";
 import API_URL from "../config";
 import useFetch from "../hooks/useFetch";
 import { useSelector } from "react-redux";
+import LoadingScreen from "../components/Loading";
 const ChooseArtist = () => {
   const navigate = useNavigate();
 
@@ -89,7 +90,7 @@ const ChooseArtist = () => {
         {/* <Button variant="outline-success">Search</Button> */}
       </Form>
       <p className="text-white container mt-4">Suggested Artists</p>
-      {loading && <h1>Loading</h1>}
+      {loading && <LoadingScreen />}
       {error && <h1>{error}</h1>}
       {filteredArtists.map((artist) => (
         <div

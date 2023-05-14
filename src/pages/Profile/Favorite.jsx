@@ -37,7 +37,9 @@ const Favorite = () => {
           </div>
         </div>
       ))}
-      {events.length === 0 && <p>No Favorite Event </p>}
+      {events.length === 0 && (
+        <p className="text-center no-result">No Favorite Event </p>
+      )}
     </div>
   );
 };
