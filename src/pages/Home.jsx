@@ -179,7 +179,7 @@ const Home = () => {
             </div>
             <div className="d-flex date " onClick={handleShow}>
               <img src="/assets/discover/calendar.svg" alt="calendar-logo" />
-              <p className="m-0">{formattedDate}</p>
+              <p className="m-0 text-uppercase">{formattedDate}</p>
             </div>
             <LocationModal
               showMap={showMap}

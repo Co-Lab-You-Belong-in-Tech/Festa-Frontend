@@ -1,38 +1,42 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { artists } from "../../components/data/Artistdata";
+import API_URL from "../../config";
 import { BsCheck } from "react-icons/bs";
 
 const Following = () => {
-  const account = useSelector((state) => state.account);
-  const favorites = account?.favorites;
-  const [selectedArtist, setselectedArtist] = useState([]);
-  function updateSelectedArtistList(id) {
-    if (!selectedArtist.includes(id)) {
-      setselectedArtist((prev) => [...prev, id]);
-    } else {
-      setselectedArtist((prev) => prev.filter((artistId) => artistId !== id));
-    }
-  }
-  console.log(favorites);
+  const { token } = useSelector((state) => state.account);
+  const [favorites, setFavorites] = useState([]);
+
+  useEffect(() => {
+    // Fetch user data from the /users/me endpoint
+    fetch(`${API_URL}/api/v1/users/me`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Extract the favorites array from the user data
+        const { favorites } = data.payload.data.user;
+        setFavorites(favorites);
+      })
+      .catch((error) => {
+        console.error("Error fetching user data:", error);
+      });
+  }, []);
+
   return (
     <div>
       <div className="">
-        {artists.slice(0, 3).map((artist) => (
-          <div
-            key={artist.id}
-            className="artistlist"
-            onClick={() => {
-              updateSelectedArtistList(artist.id);
-            }}
-          >
+        {favorites.map((favorite) => (
+          <div key={favorite._id} className="artistlist">
             <div className="d-flex align-items-center justify-content-center">
               <img
-                src={artist.image}
+                src={favorite.image}
                 alt="artistimage"
                 className="artistimage"
               />
-              <p className="text-white">{artist.name}</p>
+              <p className="text-white">{favorite.name}</p>
             </div>
             <div
               className="checkcircle"
@@ -44,7 +48,6 @@ const Following = () => {
                 <BsCheck color={"#FFF"} className="checkmark" />
               </div>
             </div>
-            {/* <p>{isClicked ? "Selected" : "Unchecked"}</p> */}
           </div>
         ))}
       </div>

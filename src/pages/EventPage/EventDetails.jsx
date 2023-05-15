@@ -192,7 +192,7 @@ END:VCALENDAR`;
           {artists.slice(0, 4).map((artist) => (
             <div key={artist.id} className="">
               <ul>
-                <li>{artist}</li>
+                <li>{artist.name.join(" ")}</li>
               </ul>
             </div>
           ))}

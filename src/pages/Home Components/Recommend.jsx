@@ -19,7 +19,7 @@ function Recommended({
   const [upcomingData = [], upcomingLoading, upcomingError] =
     useFetch("/events");
 
-  const hertIconRef = useRef(null);
+  // const hertIconRef = useRef(null);
 
   const filterLogic = useCallback(
     (array) => {
@@ -55,13 +55,13 @@ function Recommended({
     navigate(`/event/${eventId}`);
   }, []);
 
-  const handleHeartClick = (e, eventId) => {
-    console.dir(e.target);
-    e.stopPropagation();
-    if (e.target.className === "heart-icon") {
-      updateSelectedEventList(eventId);
-    }
-  };
+  // const handleHeartClick = (e, eventId) => {
+  //   console.dir(e.target);
+  //   e.stopPropagation();
+  //   if (e.target.className === "heart-icon") {
+  //     updateSelectedEventList(eventId);
+  //   }
+  // };
 
   const likeEvent = useCallback((id) => {
     updateSelectedEventList(id);
@@ -86,48 +86,13 @@ function Recommended({
       )}
       <div className="row">
         {filteredEvents.slice(0, 4).map((event) => (
-          <div key={event._id} className="col-12 col-md-6 md-p-3">
-            <div className="eventlist">
-              <div className="d-flex justify-between align-start w-100 gap-2">
-                <div className="d-flex gap-3 align-center flex-grow-1">
-                  <div className="eventimage-container">
-                    <img
-                      src={event.image}
-                      alt="eventimage"
-                      className="eventimage"
-                    />
-                  </div>
-                  <div className="eventtext">
-                    <p className="eventtext-paragraph text-uppercase">
-                      {dayjs(event.start_date, "DD/M/YYYY").format(
-                        "MMM DD, YYYY"
-                      )}{" "}
-                      -{" "}
-                      {dayjs(event.end_date, "DD/M/YYYY").format(
-                        "MMM DD, YYYY"
-                      )}
-                    </p>
-                    <p className="fw-bold eventname">{event.name}</p>
-                    <p className="eventtext-paragraph">{event.venue},</p>
-                    <p className="eventtext-paragraph">
-                      {event.city} {event.state}
-                    </p>
-                  </div>
-                </div>
-                <div
-                  ref={hertIconRef}
-                  className="heart-icon"
-                  onClick={(e) => handleHeartClick(e, event._id)}
-                >
-                  {selectedEvent.includes(event._id) ? (
-                    <BsHeartFill />
-                  ) : (
-                    <BsHeart />
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
+          <EventList
+            key={event._id}
+            {...event}
+            selectedEvent={selectedEvent}
+            goToDetails={goToDetails}
+            likeEvent={likeEvent}
+          />
         ))}
       </div>
 
