@@ -126,7 +126,7 @@ const Home = () => {
 
   return (
     <AppLayout>
-      <div className="home-wrapper">
+      <div className="home-wrapper ">
         <p className=" container fw-bold">
           Hi {(isLoggedIn || register_success) && account?.name?.split(" ")[0]},
         </p>

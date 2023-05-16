@@ -1,13 +1,17 @@
-import { useState, useEffect } from "react";
+import { useCallback, useMemo, useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import { useNavigate } from "react-router-dom";
+import useFetch from "../hooks/useFetch";
+
 import "react-calendar/dist/Calendar.css";
 import { Button, Form, InputGroup, Modal } from "react-bootstrap";
 import "./Home.css";
 import { GrSearch } from "react-icons/gr";
 import { BsHeart, BsHeartFill, BsArrowLeftShort } from "react-icons/bs";
 import { SlLocationPin } from "react-icons/sl";
-import { Upcomingevents } from "../components/data/Eventsdata";
+
+import dayjs from "dayjs";
+import AppLayout from "../components/Layout/AppLayout";
 
 const weekDays = ["S", "M", "T", "W", "T", "F", "S"];
 const Home = () => {
@@ -89,95 +93,162 @@ const Home = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="home-wrapper">
-      <BsArrowLeftShort onClick={() => navigate(-1)} className="back-icon" />
-      <Form className="d-flex form-search container">
-        <div className="input-group">
-          <div className="input-group-text search-wrapper bg-white">
-            <GrSearch className="text-white search-icon" />
+    <AppLayout>
+      <div className="home-wrapper">
+        <BsArrowLeftShort onClick={() => navigate(-1)} className="back-icon" />
+        <Form className="d-flex form-search container">
+          <div className="input-group">
+            <div className="input-group-text search-wrapper bg-white">
+              <GrSearch className="text-white search-icon" />
+            </div>
+            <Form.Control
+              type="search"
+              placeholder="Search all events"
+              className="me-2 search-form"
+              aria-label="Search"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </div>
-          <Form.Control
-            type="search"
-            input
-            placeholder="Search all events"
-            className="me-2 search-form"
-            aria-label="Search"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+
+          {/* <Button variant="outline-success">Search</Button> */}
+        </Form>
+
+        <div className="d-flex align-items-center select mt-4">
+          <div
+            className="d-flex align-items-center map "
+            onClick={handleMapShow}
+          >
+            <>
+              <div className="d-flex gap-1">
+                <SlLocationPin className="map-pin" />
+                {location.city && location.state && location.zipcode ? (
+                  <span>
+                    {location.city}, {location.state}
+                  </span>
+                ) : (
+                  <span>Pick location</span>
+                )}
+              </div>
+            </>
+          </div>
+          <div className="d-flex date " onClick={handleShow}>
+            <img
+              src="/public/assets/discover/calendar.svg"
+              alt="calendar-logo"
+            />
+            <p className="m-0">{formattedDate}</p>
+          </div>
+          <LocationModal
+            showMap={showMap}
+            setShowMap={setShowMap}
+            fullscreen={fullscreen}
+            values={values}
+            handleChange={handleChange}
+            handleMapClose={handleMapClose}
+          />
+          <CalendarModal
+            show={show}
+            setShow={setShow}
+            fullscreen={fullscreen}
+            value={value}
+            onChange={onChange}
+            handleClose={handleClose}
           />
         </div>
-
-        {/* <Button variant="outline-success">Search</Button> */}
-      </Form>
-
-      <div className="d-flex align-items-center select mt-4">
-        <div className="d-flex align-items-center map " onClick={handleMapShow}>
-          <SlLocationPin className="map-pin " />
-          <p className="m-0">Saint Paul, MN</p>
-        </div>
-        <div className="d-flex date " onClick={handleShow}>
-          <img src="/public/assets/discover/calendar.svg" alt="calendar-logo" />
-          <p className="m-0">{formattedDate}</p>
-        </div>
-        <LocationModal
-          showMap={showMap}
-          setShowMap={setShowMap}
-          fullscreen={fullscreen}
-          values={values}
-          handleChange={handleChange}
-          handleMapClose={handleMapClose}
+        <Recommended
+          searchQuery={searchQuery}
+          selectedEvent={selectedEvent}
+          updateSelectedEventList={updateSelectedEventList}
         />
-        <CalendarModal
-          show={show}
-          setShow={setShow}
-          fullscreen={fullscreen}
-          value={value}
-          onChange={onChange}
-          handleClose={handleClose}
-        />
+        <Toast {...toastData} />
       </div>
-      <Recommended
-        searchQuery={searchQuery}
-        selectedEvent={selectedEvent}
-        updateSelectedEventList={updateSelectedEventList}
-      />
-      <Toast {...toastData} />
-    </div>
+    </AppLayout>
   );
 };
 
 export default Home;
 
-function Recommended({ searchQuery, selectedEvent, updateSelectedEventList }) {
-  const filteredEvents = Upcomingevents.filter((event) =>
-    event.name.toLowerCase().includes(searchQuery.toLowerCase())
+function Recommended({
+  searchQuery,
+  selectedEvent,
+  updateSelectedEventList,
+  calenderFilterDate,
+}) {
+  const navigate = useNavigate();
+  function handleClick(eventId) {
+    navigate(`/event/${eventId}`);
+  }
+  const [upcomingData = []] = useFetch("/events");
+
+  const filterLogic = useCallback(
+    (array) => {
+      return calenderFilterDate || searchQuery
+        ? array.filter((event) => {
+            const eventMinTime = new Date(event.start_date).getTime();
+            const eventMaxTime = new Date(event.end_date).getTime();
+            const filterTime = new Date(calenderFilterDate).getTime();
+            console.log(eventMinTime);
+            const inRange =
+              eventMinTime <= filterTime && filterTime <= eventMaxTime;
+            const matchName = event.name
+              .toLowerCase()
+              .includes(searchQuery.toLowerCase());
+            return inRange || matchName;
+          })
+        : array;
+    },
+    [calenderFilterDate, searchQuery]
+  );
+
+  const filteredEvents = useMemo(
+    () => filterLogic(upcomingData),
+    [upcomingData, searchQuery, calenderFilterDate]
   );
 
   return (
-    <div>
-      <div className="d-flex justify-content-between align-items-center event-list-header">
-        <p className="fw-bold ">Upcoming Events</p>
-      </div>
+    <div className="row">
       {filteredEvents.map((event) => (
-        <div key={event.id} className="eventlist">
-          <div className="d-flex justify-between align-start w-100 gap-2">
-            <div className="d-flex gap-3 align-center flex-grow-1">
-              <div>
-                <img
-                  src={event.image}
-                  alt="eventimage"
-                  className="eventimage"
-                />
+        <div
+          key={event._id}
+          onClick={() => handleClick(event._id)}
+          className="col-12 col-md-6 md-p-3 mt-4"
+        >
+          <div className="eventlist">
+            <div className="d-flex justify-between align-start w-100 gap-2">
+              <div className="d-flex gap-3 align-center flex-grow-1">
+                <div className="eventimage-container">
+                  <img
+                    src={event.image}
+                    alt="eventimage"
+                    className="eventimage"
+                  />
+                </div>
+                <div className="eventtext">
+                  <p className="eventtext-paragraph text-uppercase">
+                    {dayjs(event.start_date, "DD/M/YYYY").format(
+                      "MMM DD, YYYY"
+                    )}{" "}
+                    -{" "}
+                    {dayjs(event.end_date, "DD/M/YYYY").format("MMM DD, YYYY")}
+                  </p>
+                  <p className="fw-bold eventname">{event.name}</p>
+                  <p className="eventtext-paragraph">{event.venue},</p>
+                  <p className="eventtext-paragraph">
+                    {event.city} {event.state}
+                  </p>
+                </div>
               </div>
-              <div className="eventtext">
-                <p className="eventtext-paragraph">{event.date}</p>
-                <p className="fw-bold eventname">{event.name}</p>
-                <p className="eventtext-paragraph">{event.venue}</p>
-                <p className="eventtext-paragraph">{event.city}</p>
+              <div
+                className=""
+                onClick={() => updateSelectedEventList(event.id)}
+              >
+                {selectedEvent.includes(event.id) ? (
+                  <BsHeartFill />
+                ) : (
+                  <BsHeart />
+                )}
               </div>
-            </div>
-            <div className="" onClick={() => updateSelectedEventList(event.id)}>
-              {selectedEvent.includes(event.id) ? <BsHeartFill /> : <BsHeart />}
             </div>
           </div>
         </div>
@@ -215,14 +286,7 @@ function CalendarModal({
             }
           />
         </div>
-        {/* <Alert
-          color="primary"
-          dismissible
-          visible={visible}
-          onClose={() => setVisible(false)}
-        >
-          Saved Successfully
-        </Alert> */}
+
         <div className="btn-wrap">
           <Button className="save-btn" onClick={handleClose}>
             Save
@@ -270,14 +334,7 @@ function LocationModal({
             required
           />
         </InputGroup>
-        {/* <Alert
-          color="primary"
-          dismissible
-          visible={visible}
-          onClose={() => setVisible(false)}
-        >
-          Saved Successfully
-        </Alert> */}
+
         <div className="btn-wrap">
           <Button className="save-btn-zip" onClick={handleMapClose}>
             Save

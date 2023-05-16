@@ -74,7 +74,7 @@ function Recommended({
   }, []);
 
   return (
-    <div className="container">
+    <div className="">
       <div className="row d-flex justify-content-between align-items-center event-list-header">
         <p className="fw-bold w-auto">Recommended for you</p>
         <Link
@@ -118,15 +118,17 @@ function Recommended({
         {filteredUpcomingEvents.length === 0 && !upcomingLoading && (
           <h2 className="no-event">No events matched your query</h2>
         )}
-        {filteredUpcomingEvents.slice(0, 4).map((upcomingevent) => (
-          <EventList
-            key={upcomingevent._id}
-            {...upcomingevent}
-            selectedEvent={selectedEvent}
-            goToDetails={goToDetails}
-            likeEvent={likeEvent}
-          />
-        ))}
+        <div className="row">
+          {filteredUpcomingEvents.slice(0, 4).map((upcomingevent) => (
+            <EventList
+              key={upcomingevent._id}
+              {...upcomingevent}
+              selectedEvent={selectedEvent}
+              goToDetails={goToDetails}
+              likeEvent={likeEvent}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -160,30 +162,28 @@ function EventList({
     [_id, likeEvent, goToDetails]
   );
   return (
-    <div
-      key={_id}
-      onClick={onClick}
-      className="eventlist md-border-right md-border-left"
-    >
-      <div className="d-flex justify-between align-start w-100 gap-2">
-        <div className="d-flex gap-3 align-center flex-grow-1">
-          <div className="eventimage-container">
-            <img src={image} alt="eventimage" className="eventimage" />
+    <div key={_id} onClick={onClick} className="col-12 col-md-6 md-p-3 mt-4">
+      <div className="eventlist">
+        <div className="d-flex justify-between align-start w-100 gap-2">
+          <div className="d-flex gap-3 align-center flex-grow-1">
+            <div className="eventimage-container">
+              <img src={image} alt="eventimage" className="eventimage" />
+            </div>
+            <div className="eventtext">
+              <p className="eventtext-paragraph text-uppercase">
+                {dayjs(start_date, "DD/M/YYYY").format("MMM DD, YYYY")} -{" "}
+                {dayjs(end_date, "DD/M/YYYY").format("MMM DD, YYYY")}
+              </p>
+              <p className="fw-bold eventname">{name}</p>
+              <p className="eventtext-paragraph">{venue},</p>
+              <p className="eventtext-paragraph">
+                {city} {state}
+              </p>
+            </div>
           </div>
-          <div className="eventtext">
-            <p className="eventtext-paragraph text-uppercase">
-              {dayjs(start_date, "DD/M/YYYY").format("MMM DD, YYYY")} -{" "}
-              {dayjs(end_date, "DD/M/YYYY").format("MMM DD, YYYY")}
-            </p>
-            <p className="fw-bold eventname">{name}</p>
-            <p className="eventtext-paragraph">{venue},</p>
-            <p className="eventtext-paragraph">
-              {city} {state}
-            </p>
+          <div ref={heartIconRef} className="heart-icon">
+            {selectedEvent.includes(_id) ? <BsHeartFill /> : <BsHeart />}
           </div>
-        </div>
-        <div ref={heartIconRef} className="heart-icon">
-          {selectedEvent.includes(_id) ? <BsHeartFill /> : <BsHeart />}
         </div>
       </div>
     </div>

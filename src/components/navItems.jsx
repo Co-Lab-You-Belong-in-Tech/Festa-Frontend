@@ -4,7 +4,11 @@ const navItems = [
     inactive: "/assets/navIcons/home (2) 1.png",
     active: "/assets/navIcons/home (3) 1.svg",
     url: "/discover",
-    activeUrls: ["/discover", "/discover/recommended"],
+    activeUrls: [
+      "/discover",
+      "/discover/recommended",
+      "/discover/upcoming-events",
+    ],
   },
   {
     name: "Alerts",
