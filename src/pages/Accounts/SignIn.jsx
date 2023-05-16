@@ -60,7 +60,7 @@ const SignIn = () => {
               <h2 className="fw-bold text-left signup-heading">Sign In</h2>
               <Form onSubmit={handleFormSubmit}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
-                  <Form.Label>Email address</Form.Label>
+                  <Form.Label>Email</Form.Label>
                   <Form.Control
                     type="email"
                     className="input-form"
