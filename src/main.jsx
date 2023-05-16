@@ -19,7 +19,7 @@ import ChooseArtist from "./pages/ChooseArtist";
 import Location from "./pages/Location";
 import SplashLoading from "./components/SplashLoading";
 import Home from "./pages/Home";
-import RecommendedPage from "./pages/Recommended";
+import RecommendedPage from "./pages/RecommendedEvents.jsx";
 import UpcomingEvents from "./pages/UpcomingEvents";
 import EventDetails from "./pages/EventPage/EventDetails.jsx";
 import Notification from "./pages/Notification/Notification";
