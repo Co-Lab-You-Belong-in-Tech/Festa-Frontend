@@ -75,7 +75,7 @@ const ChooseArtist = () => {
             tickets
           </p>
         </div>
-        <div className="row">
+        <div className="row d-md-flex justify-content-md-between">
           <Form className="d-flex form-search container col-12 col-md-6">
             <div className="input-group ">
               <div className="input-group-text search-wrapper bg-white">
@@ -98,56 +98,60 @@ const ChooseArtist = () => {
         <p className="text-white container mt-4">Suggested Artists</p>
         {loading && <LoadingScreen />}
         {error && <h1>{error}</h1>}
-        <div className="row">
-          {filteredArtists.map((artist) => (
-            <div
-              key={artist._id}
-              className="col-12 col-md-6 md-p-3"
-              onClick={() => {
-                updateSelectedArtistList(artist._id);
-              }}
-            >
-              <div className="artistlist">
-                <div className="d-flex align-items-center justify-content-center">
-                  <img
-                    src={artist.image}
-                    alt="artistimage"
-                    className="artistimage"
-                  />
-                  <p className="text-white">{artist.name.join(" ")}</p>
-                </div>
-                <div
-                  className="checkcircle"
-                  style={{
-                    background: selectedArtist.includes(artist._id)
-                      ? "#fd7404"
-                      : "#fff",
-                  }}
-                >
-                  <div>
-                    <BsCheck
-                      color={
-                        selectedArtist.includes(artist._id) ? "#FFF" : "#a1a1a1"
-                      }
-                      className="checkmark"
+        <div className="d-flex justify-content-center">
+          <div className="row">
+            {filteredArtists.map((artist) => (
+              <div
+                key={artist._id}
+                className="col-12 col-md-6 md-p-5"
+                onClick={() => {
+                  updateSelectedArtistList(artist._id);
+                }}
+              >
+                <div className="artistlist">
+                  <div className="d-flex align-items-center justify-content-center">
+                    <img
+                      src={artist.image}
+                      alt="artistimage"
+                      className="artistimage"
                     />
+                    <p className="text-white">{artist.name.join(" ")}</p>
+                  </div>
+                  <div
+                    className="checkcircle"
+                    style={{
+                      background: selectedArtist.includes(artist._id)
+                        ? "#fd7404"
+                        : "#fff",
+                    }}
+                  >
+                    <div>
+                      <BsCheck
+                        color={
+                          selectedArtist.includes(artist._id)
+                            ? "#FFF"
+                            : "#a1a1a1"
+                        }
+                        className="checkmark"
+                      />
+                    </div>
                   </div>
                 </div>
+                {/* <p>{isClicked ? "Selected" : "Unchecked"}</p> */}
               </div>
-              {/* <p>{isClicked ? "Selected" : "Unchecked"}</p> */}
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
-        {filteredArtists.length == 0 && (
+        {filteredArtists.length == 0 && !loading && (
           <div className="text-center no-result">No Result</div>
         )}
 
-        <div className=" container">
+        <div className=" container row d-flex justify-content-center">
           <Button
             variant="primary"
             type="submit"
-            className="artist-btn"
+            className="artist-btn col-12 col-md-6"
             onClick={() => addToFavorites()}
           >
             Continue

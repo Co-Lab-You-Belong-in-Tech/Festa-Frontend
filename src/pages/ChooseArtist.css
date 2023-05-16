@@ -73,7 +73,7 @@
 .artist-btn {
   background-color: #db27df;
   border: none;
-  width: 94%;
+  /* width: 94%; */
   border-radius: 4px;
   margin-top: 10px;
   position: fixed;
