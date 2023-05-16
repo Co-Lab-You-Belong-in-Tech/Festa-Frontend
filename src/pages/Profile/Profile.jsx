@@ -48,7 +48,7 @@ const Profile = () => {
   return (
     <AppLayout>
       <div>
-        <div className="d-flex justify-content-between profile-header">
+        <div className="d-flex justify-content-between profile-header ">
           <p className="fw-bold">
             {" "}
             {(isLoggedIn || register_success) && account?.name}
@@ -57,7 +57,7 @@ const Profile = () => {
             Log Out
           </Button>
         </div>
-        <div className="d-flex justify-content-between pt-4 pb-4 profile-buttons-wrapper">
+        <div className="d-flex justify-content-between justify-content-md-start pt-4 pb-4 profile-buttons-wrapper">
           <Button
             onClick={handleFavoriteButtonClick}
             style={{

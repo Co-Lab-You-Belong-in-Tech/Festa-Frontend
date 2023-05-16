@@ -14,6 +14,7 @@ import { SlLocationPin } from "react-icons/sl";
 import axios from "axios";
 
 import AppLayout from "../components/Layout/AppLayout";
+import useFetch from "../hooks/useFetch";
 
 const weekDays = ["S", "M", "T", "W", "T", "F", "S"];
 
@@ -81,15 +82,22 @@ const Home = () => {
     }, 2000);
   };
 
-  const [selectedEvent, setselectedEvent] = useState([]);
+  const [data, , , mutate] = useFetch("/users/me");
+
   const { token } = useSelector((state) => state.account);
+
+  const selectedEvent =
+    data?.data?.user?.favorite_events?.map((event) => event._id) ?? [];
 
   const updateSelectedEventList = useCallback(
     async (id) => {
+      // his api is on point now
       try {
-        const response = await axios.patch(
-          `${API_URL}/api/v1/events/${id}/favorite`,
-          undefined,
+        const response = await axios.post(
+          `${API_URL}/api/v1/users/favorite-event`,
+          {
+            events: [id],
+          },
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -97,32 +105,15 @@ const Home = () => {
           }
         );
 
-        // console.log("response:", response);
-
         if (response.status === 200) {
-          setselectedEvent((prev) => {
-            if (!prev.includes(id)) {
-              return [...prev, id];
-            } else {
-              return prev.filter((eventId) => eventId !== id);
-            }
-          });
+          await mutate();
         }
       } catch (error) {
         console.error(error);
       }
     },
-    [selectedEvent]
+    [selectedEvent, token, mutate]
   );
-
-  // function updateSelectedEventList(id) {
-
-  //   if (!selectedEvent.includes(id)) {
-  //     setselectedEvent((prev) => [...prev, id]);
-  //   } else {
-  //     setselectedEvent((prev) => prev.filter((eventId) => eventId !== id));
-  //   }
-  // }
 
   const [toastData, setToastData] = useState({ text: "", show: false });
 

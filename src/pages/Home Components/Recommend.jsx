@@ -11,6 +11,7 @@ function Recommended({
   searchQuery,
   selectedEvent,
   updateSelectedEventList,
+
   calenderFilterDate,
 }) {
   const [recommendedData = [], recommendedLoading, recommendedError] = useFetch(
@@ -23,20 +24,25 @@ function Recommended({
 
   const filterLogic = useCallback(
     (array) => {
-      return calenderFilterDate || searchQuery
-        ? array.filter((event) => {
-            const eventMinTime = new Date(event.start_date).getTime();
-            const eventMaxTime = new Date(event.end_date).getTime();
-            const filterTime = new Date(calenderFilterDate).getTime();
-            console.log(eventMinTime);
-            const inRange =
-              eventMinTime <= filterTime && filterTime <= eventMaxTime;
-            const matchName = event.name
-              .toLowerCase()
-              .includes(searchQuery.toLowerCase());
-            return inRange || matchName;
-          })
-        : array;
+      return array
+        .filter((event) => {
+          if (!calenderFilterDate) return true;
+          const eventMinTime = new Date(
+            dayjs(event.start_date, "DD/M/YYYY").format("YYYY-MM-DD")
+          ).getTime();
+          const eventMaxTime = new Date(
+            dayjs(event.end_date, "DD/M/YYYY").format("YYYY-MM-DD")
+          ).getTime();
+          const filterTime = new Date(calenderFilterDate).getTime();
+          const inRange =
+            eventMinTime - 60 * 60 * 24 * 1000 <= filterTime &&
+            filterTime <= eventMaxTime;
+
+          return inRange;
+        })
+        .filter((event) => {
+          return event.name.toLowerCase().includes(searchQuery.toLowerCase());
+        });
     },
     [calenderFilterDate, searchQuery]
   );

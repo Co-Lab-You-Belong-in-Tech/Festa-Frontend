@@ -26,10 +26,10 @@ const Following = () => {
   }, []);
 
   return (
-    <div>
-      <div className="">
-        {favorites.map((favorite) => (
-          <div key={favorite._id} className="artistlist">
+    <div className="row">
+      {favorites.map((favorite) => (
+        <div className="col-12 col-md-6 md-p-3 mb-md-4" key={favorite._id}>
+          <div className="artistlist">
             <div className="d-flex align-items-center justify-content-center">
               <img
                 src={favorite.image}
@@ -49,8 +49,8 @@ const Following = () => {
               </div>
             </div>
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
   );
 };

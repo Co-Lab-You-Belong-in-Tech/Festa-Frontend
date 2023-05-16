@@ -162,6 +162,12 @@
   padding: 12px 16px;
 }
 
+@media (min-width: 768px) {
+  .eventlist {
+    border-width: 0.5px 0.5px;
+  }
+}
+
 .eventImage {
   border-radius: 12px;
   width: 96px;

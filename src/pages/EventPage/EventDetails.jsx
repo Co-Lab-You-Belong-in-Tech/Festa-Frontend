@@ -37,8 +37,11 @@ const EventDetails = () => {
       "America/Los_Angeles"
     );
 
-    const start_utc = start_time_moment.utc().format("YYYYMMDDTHHmmSS[Z]");
-    const end_utc = end_time_moment.utc().format("YYYYMMDDTHHmmSS[Z]");
+    const start_time_tz = moment(start_time_moment).tz("Pacific Time");
+    const end_time_tz = moment(end_time_moment).tz("Pacific Time");
+
+    const start_utc = start_time_tz.utc().format("YYYYMMDDTHHmmSS[Z]");
+    const end_utc = end_time_tz.utc().format("YYYYMMDDTHHmmSS[Z]");
     console.log(start_utc, "start_utc");
     console.log(end_utc, "end_utc");
     const icsFileContent = `BEGIN:VCALENDAR

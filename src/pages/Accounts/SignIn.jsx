@@ -47,7 +47,7 @@ const SignIn = () => {
   return (
     <AppLayout renderNav={false}>
       <div className="container">
-        <div className="img-container">
+        <div className="img-container d-grid d-md-none">
           <img
             src="/assets/Logo_PNG.svg"
             alt="Logo"
