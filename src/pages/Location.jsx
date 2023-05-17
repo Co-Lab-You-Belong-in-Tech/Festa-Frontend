@@ -4,6 +4,7 @@ import { Button, Form, InputGroup } from "react-bootstrap";
 import axios from "axios";
 import { LocationContext } from "./LocationContext";
 import "./Location.css";
+import AppLayout from "../components/Layout/AppLayout";
 
 const Location = () => {
   const navigate = useNavigate();
@@ -38,46 +39,55 @@ const Location = () => {
   };
 
   return (
-    <div className="container">
-      <div className="img-container">
-        <img
-          src="/assets/Logo_PNG.svg"
-          alt="Logo"
-          className="img-fluid mx-auto"
-        />
-      </div>
-      <h2 className="heading text-center">Find events happening near you</h2>
-      <div className="img-wrapper">
-        <img src="/assets/map 1.svg" alt="" />
-      </div>
-      <InputGroup className="mb-3">
-        <Form.Control
-          placeholder="Your ZIP Code"
-          aria-label="Your ZIP Code"
-          aria-describedby="basic-addon1"
-          className="zip-input"
-          maxLength={5}
-          value={zipcode}
-          onChange={handleZipcodeChange}
-        />
-      </InputGroup>
+    <AppLayout renderNav={false} renderSide={false}>
+      <div className="container">
+        <div className="img-container d-grid d-md-none">
+          <img
+            src="/assets/Logo_PNG.svg"
+            alt="Logo"
+            className="img-fluid mx-auto"
+          />
+        </div>
+        <p className="signup-heading text-center mt-5 d-none d-md-block">
+          Festa
+        </p>
+        <h2 className="heading text-center">Find events happening near you</h2>
+        <div className="img-wrapper">
+          <img src="/assets/map 1.svg" alt="" />
+        </div>
+        <div className="row d-md-flex justify-content-md-center">
+          <div className="col-12 col-md-6">
+            <InputGroup className="mb-3">
+              <Form.Control
+                placeholder="Your ZIP Code"
+                aria-label="Your ZIP Code"
+                aria-describedby="basic-addon1"
+                className="zip-input"
+                maxLength={5}
+                value={zipcode}
+                onChange={handleZipcodeChange}
+              />
+            </InputGroup>
 
-      <Button
-        variant="primary"
-        type="submit"
-        className="signup-btn "
-        onClick={handleLookup}
-      >
-        Continue
-      </Button>
+            <Button
+              variant="primary"
+              type="submit"
+              className="signup-btn "
+              onClick={handleLookup}
+            >
+              Continue
+            </Button>
+          </div>
+        </div>
 
-      <p
-        className="text-center text-white mt-4 pe-auto"
-        onClick={() => navigate("/loading")}
-      >
-        Skip for now
-      </p>
-    </div>
+        <p
+          className="text-center text-white mt-4 pe-auto"
+          onClick={() => navigate("/loading")}
+        >
+          Skip for now
+        </p>
+      </div>
+    </AppLayout>
   );
 };
 
