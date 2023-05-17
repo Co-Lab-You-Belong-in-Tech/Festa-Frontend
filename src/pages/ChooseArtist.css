@@ -11,8 +11,24 @@
 @media (min-width: 768px) {
   .artistlist {
     border-width: 0.5px 0.5px;
+    border-radius: 4px;
+  }
+  .suggested-artist {
+    margin-left: 13%;
+  }
+
+  .artist-wrapper {
+    margin: 0 15%;
+    padding-bottom: 100px;
+  }
+  .button-wrap {
+    margin-top: 36px;
   }
 }
+
+/* .button-wrapper {
+  margin: 0 15px;
+} */
 
 .search-wrapper {
   border-radius: 12px;
@@ -78,6 +94,12 @@
   margin-top: 10px;
   position: fixed;
   bottom: 60px;
+}
+
+@media (max-width: 768px) {
+  .artist-btn {
+    width: 94%;
+  }
 }
 
 .artist-btn:hover {

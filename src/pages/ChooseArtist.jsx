@@ -70,7 +70,7 @@ const ChooseArtist = () => {
           />
         </div>
         <div className="row">
-          <p className="text-center text-white container col-12 col-md-6 ">
+          <p className="text-center text-white container col-12 col-md-6 mt-md-5 ">
             Follow your favorite artist to build your feed and stay updated for
             tickets
           </p>
@@ -95,10 +95,12 @@ const ChooseArtist = () => {
             {/* <Button variant="outline-success">Search</Button> */}
           </Form>
         </div>
-        <p className="text-white container mt-4">Suggested Artists</p>
+        <p className="text-white container mt-4 suggested-artist">
+          Suggested Artists
+        </p>
         {loading && <LoadingScreen />}
         {error && <h1>{error}</h1>}
-        <div className="d-flex justify-content-center">
+        <div className="d-flex justify-content-center artist-wrapper ">
           <div className="row">
             {filteredArtists.map((artist) => (
               <div
@@ -147,7 +149,7 @@ const ChooseArtist = () => {
           <div className="text-center no-result">No Result</div>
         )}
 
-        <div className=" container row d-flex justify-content-center">
+        <div className="row d-flex justify-content-center button-wrap">
           <Button
             variant="primary"
             type="submit"
