@@ -85,11 +85,17 @@ function Recommended({
         </Link>
       </div>
       {recommendedLoading && <LoadingScreen />}
-      {recommendedError && <h1>{recommendedError}</h1>}
-
-      {filteredEvents.length === 0 && !recommendedLoading && (
-        <h2 className="no-event">No events matched your query</h2>
+      {recommendedError && (
+        <h3 className="text-center fw-bold">
+          No events found for the selected artist
+        </h3>
       )}
+
+      {filteredEvents.length === 0 &&
+        !recommendedLoading &&
+        !recommendedError && (
+          <h2 className="no-event">No events matched your query</h2>
+        )}
       <div className="row">
         {filteredEvents.slice(0, 4).map((event) => (
           <EventList
@@ -162,7 +168,7 @@ function EventList({
     [_id, likeEvent, goToDetails]
   );
   return (
-    <div key={_id} onClick={onClick} className="col-12 col-md-6 md-p-3 mt-4">
+    <div key={_id} onClick={onClick} className="col-12 col-md-6 md-p-3 mt-md-4">
       <div className="eventlist">
         <div className="d-flex justify-between align-start w-100 gap-2">
           <div className="d-flex gap-3 align-center flex-grow-1">
