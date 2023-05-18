@@ -1,11 +1,13 @@
-import { useState } from "react";
-import useFetch from "../../hooks/useFetch";
+import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import dayjs from "dayjs";
 // import { events } from "../../components/data/Eventsdata";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
+import API_URL from "../../config";
+
 const Attending = () => {
   const [selectedEvent, setselectedEvent] = useState([]);
-  const [Attendingdata = []] = useFetch(`/users/action?action=attending`);
+  // const [Attendingdata = []] = useFetch(`/users/action?action=attending`);
 
   function updateSelectedEventList(id) {
     if (!selectedEvent.includes(id)) {
@@ -15,12 +17,35 @@ const Attending = () => {
     }
   }
 
+  const { token } = useSelector((state) => state.account);
+  const [attending, setAttending] = useState([]);
+
+  useEffect(() => {
+    // Fetch user data from the /users/me endpoint
+    fetch(`${API_URL}/api/v1/users/me`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Extract the favorites array from the user data
+        const { attending_events } = data.payload.data.user;
+        setAttending(attending_events);
+      })
+      .catch((error) => {
+        console.error("Error fetching user data:", error);
+      });
+  }, []);
+
   return (
     <div className="row">
-      {Attendingdata.map((event) =>
+      {attending.map((event) =>
         AttendingEventList(event, updateSelectedEventList, selectedEvent)
       )}
-      {Attendingdata.length === 0 && <p>No Event </p>}
+      {attending.length === 0 && (
+        <p className="text-center no-result">No Event </p>
+      )}
     </div>
   );
 };

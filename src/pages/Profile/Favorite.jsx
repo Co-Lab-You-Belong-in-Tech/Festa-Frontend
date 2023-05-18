@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import API_URL from "../../config";
-import { events } from "../../components/data/Eventsdata";
+
 import { BsHeartFill } from "react-icons/bs";
 const Favorite = () => {
   const { token } = useSelector((state) => state.account);
@@ -61,7 +61,7 @@ const Favorite = () => {
         ))}
       </div>
 
-      {events.length === 0 && (
+      {favoriteEvents.length === 0 && (
         <p className="text-center no-result">No Favorite Event </p>
       )}
     </div>

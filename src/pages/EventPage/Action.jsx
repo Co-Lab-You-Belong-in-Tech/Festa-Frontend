@@ -6,6 +6,7 @@ import { VscCheck } from "react-icons/vsc";
 import { RxQuestionMark } from "react-icons/rx";
 import { BsBookmark } from "react-icons/bs";
 import API_URL from "../../config";
+import { toast } from "react-toastify";
 
 function ActionComponent() {
   const { id } = useParams();
@@ -29,7 +30,7 @@ function ActionComponent() {
   const sendAction = (action) => {
     // Make a request to the backend API endpoint using fetch or axios
     fetch(`${API_URL}/api/v1/users/action/${id}?action=${action}`, {
-      method: "PATCH",
+      method: "POST",
       body: JSON.stringify({ action }),
       headers: {
         "Content-Type": "application/json",
@@ -37,7 +38,12 @@ function ActionComponent() {
       },
     })
       .then((response) => {
-        // Handle response from the backend API
+        if (response.status === 200) {
+          // Show success toast message
+          toast.success("Action added successfully!");
+        } else {
+          // Handle other response statuses if needed
+        }
       })
       .catch((error) => {
         // Handle error from the backend API
