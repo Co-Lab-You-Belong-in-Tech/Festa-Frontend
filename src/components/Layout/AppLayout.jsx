@@ -44,9 +44,9 @@ function AppLayout({ children, renderSide = false, renderNav = false }) {
   ]);
 
   return (
-    <div className="">
+    <div className="app-layout d-flex flex-column">
       <DesktopHeader renderSide={renderSide} />
-      {children}
+      <div className="flex-grow-1 d-grid">{children}</div>
       {/* {isLoggedIn ? children : null} */}
       <Footer renderNav={renderNav} />
     </div>
