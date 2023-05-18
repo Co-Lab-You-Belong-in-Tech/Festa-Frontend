@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { ProgressBar } from "react-bootstrap";
 import axios from "axios";
 import "./SplashLoading.css";
+import AppLayout from "./Layout/AppLayout";
 
 const SplashLoading = () => {
   const [completed, setCompleted] = useState(0);
@@ -39,19 +40,60 @@ const SplashLoading = () => {
       console.error(error);
     }
   };
-
   return (
-    <div className="wrapper">
-      <div>
-        <img src="/assets/splashScreen/FirstImage.png" alt="" />
-        <p className="text-white text-center fw-bold">
-          Welcome Dreamers, <br /> building your experience
-        </p>
+    <AppLayout renderNav={false} renderSide={false}>
+      <div className="d-grid d-md-none imgHouse">
+        <img src="/public/assets/Logo_PNG.svg" alt="" className="img-logo " />
       </div>
-      <div className="progress-wrapper">
-        <ProgressBar now={completed} />
+      <div className="wrapper py-5">
+        <img
+          src="/assets/splashScreen/zachary-smith-zorgErvL_Fs-unsplash 2.png"
+          alt=""
+          className="position-absolute top-0 bttom-0 left-0 right-0 imgContainer"
+        />
+        <div className="content">
+          <div>
+            <div className="">
+              <div className="row justify-content-center">
+                <div className="col-12 col-md-6">
+                  <div className="mobile-image-crop"></div>
+                </div>
+              </div>
+
+              {/* <div className="">
+              <div className="mobile-image-crop w-100 position-relative">
+                <img
+                  src="/public/assets/splashScreen/zachary-smith-zorgErvL_Fs-unsplash 2.png"
+                  alt=""
+                  className=" d-block mx-auto w-100"
+                />
+                <div className="gradient-overlay"></div>
+              </div>
+            </div> */}
+            </div>
+
+            {/* <div className="w-100">
+            {" "}
+            <img
+              src="/public/assets/splashScreen/zachary-smith-zorgErvL_Fs-unsplash 2.png"
+              alt=""
+              className=""
+            />
+          </div> */}
+            <p className="text-white text-center fw-bold">
+              Welcome Dreamers, <br /> building your experience
+            </p>
+          </div>
+          <div className="progress-wrapper d-md-flex justify-content-md-center">
+            <div className="col-12 col-md-6">
+              <div className="px-3">
+                <ProgressBar now={completed} className="" />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    </AppLayout>
   );
 };
 
