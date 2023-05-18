@@ -10,7 +10,7 @@ export const loginAccount = createAsyncThunk(
     try {
       const { email, password } = credentials;
       const response = await login(API_URL, email, password);
-      console.log(response, "login thunk");
+
       return response;
     } catch (error) {
       return rejectWithValue(error.message);

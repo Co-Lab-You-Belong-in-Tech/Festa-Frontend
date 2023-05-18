@@ -13,8 +13,7 @@ export const login = async (API_URL, email, password) => {
       throw new Error("Email or Password is Incorrect");
     }
     const result = response.data;
-    console.log(result);
-    console.log(password);
+
     const token = response.headers.get("Authorization");
     if (token) {
       LocalStore.save("token", token);
