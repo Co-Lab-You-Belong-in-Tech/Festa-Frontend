@@ -19,8 +19,6 @@ For EDM fans in North America who are looking for EDM festivals and concerts, Fe
 
 ## Features
 
-List the key features and functionalities of your project. For example:
-
 - Follow an artist: When a user signs up, during the onboarding process, there is a page that allows the user to follow some of their favorite artists by clicking on the check mark and then we are able to recommend concerts and festivals for you based on the artists selected.
 
 - Adding events to Calendar App: As a user, you can add selected events to your calendar app so that you can plan your travel arrangements for the concerts or music festivals you will be attending in North America. This is done by clicking ont the share icon on the event details page, and an ics file is downloaded to your device.
