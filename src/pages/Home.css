@@ -173,7 +173,21 @@
     border-width: 0.5px 0.5px;
     border-radius: 4px;
   }
+  .search-form {
+    height: 48px;
+    width: 498px;
+  }
+
+  .select {
+    gap: 36px;
+  }
 }
+
+/* @media (max-width: 930px) {
+  .search-form {
+    height: 72px;
+  }
+} */
 
 .eventImage {
   border-radius: 12px;

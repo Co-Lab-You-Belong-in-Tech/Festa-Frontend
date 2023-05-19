@@ -75,8 +75,8 @@ function Recommended({
 
   return (
     <div className="">
-      <div className="row d-flex justify-content-between align-items-center event-list-header">
-        <p className="fw-bold w-auto">Recommended for you</p>
+      <div className="d-flex justify-content-between align-items-center event-list-header">
+        <p className="fw-bold">Recommended for you</p>
         <Link
           to="/discover/recommended"
           className="view-more-button text-decoration-none text-white w-auto"

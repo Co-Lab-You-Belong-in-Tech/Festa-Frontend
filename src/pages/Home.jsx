@@ -126,13 +126,13 @@ const Home = () => {
 
   return (
     <AppLayout>
-      <div className="home-wrapper ">
+      <div className="home-wrapper row">
         <p className=" container fw-bold">
           Hi {(isLoggedIn || register_success) && account?.name?.split(" ")[0]},
         </p>
         <p className="container">Get started with your EDM journey!</p>
-        <div className="d-md-grid d-block">
-          <Form className="d-flex form-search container">
+        <div className="d-md-flex justify-content-md-between align-items-md-center d-block">
+          <Form className="d-flex form-search col-12 col-md-9 mt-4">
             <div className="input-group">
               <div className="input-group-text search-wrapper bg-white">
                 <GrSearch className="text-white search-icon" />
