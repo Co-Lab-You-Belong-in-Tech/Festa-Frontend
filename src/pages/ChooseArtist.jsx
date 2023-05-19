@@ -11,6 +11,7 @@ import useFetch from "../hooks/useFetch";
 import { useSelector } from "react-redux";
 import LoadingScreen from "../components/Loading";
 import AppLayout from "../components/Layout/AppLayout";
+import { toast } from "react-toastify";
 const ChooseArtist = () => {
   const navigate = useNavigate();
 
@@ -50,7 +51,7 @@ const ChooseArtist = () => {
       navigate("/location");
     } catch (error) {
       // Handle error
-      console.error("Error adding artist to favorites", error);
+      toast.error("Error adding artist to favorites", error);
     }
   };
 
