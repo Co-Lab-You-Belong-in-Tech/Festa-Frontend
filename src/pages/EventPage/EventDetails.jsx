@@ -106,120 +106,145 @@ END:VCALENDAR`;
   } = data;
 
   return (
-    <div>
-      <div style={{ position: "relative" }}>
+    <div className="row">
+      <div className="arrow-wrap d-flex justify-content-center align-items-center">
         <BsArrowLeftShort onClick={() => navigate(-1)} className="to-back" />
-
-        <span className="image-wrapper">
-          <img src={image} alt={image} />
-        </span>
       </div>
 
-      <div className="details-wrapper mt-5 ">
-        <div className="d-flex justify-content-between mb-3">
-          <div className="eventtext  ">
-            <p className="eventtext-paragraph text-uppercase">
-              {dayjs(start_date, "DD/M/YYYY").format("MMM DD, YYYY")} -{" "}
-              {dayjs(end_date, "DD/M/YYYY").format("MMM DD, YYYY")}
-            </p>
-            <p className="fw-bold eventname">{name}</p>
-            <p className="eventtext-paragraph">{venue},</p>
-            <p className="eventtext-paragraph">
-              {city} {state}
+      <div className="p-0 d-md-flex justify-content-md-around EventDetails">
+        <div className="">
+          <div className="image-wrapper">
+            <img src={image} alt={image} className="" />
+          </div>
+
+          <div className="details-wrapper mt-5 ">
+            <div className="d-flex flex-column justify-content-between mb-3">
+              <div className="d-md-flex justify-content-md-between align-items-md-center">
+                <div>
+                  <Badge pill className="event-type">
+                    {type}
+                  </Badge>
+                </div>
+                <div className="d-flex">
+                  <img
+                    onClick={copyToClipboard}
+                    src="/assets/events/Iconset/Share.svg"
+                    alt="share Icon"
+                  />
+                  <BsHeart />
+                </div>
+              </div>
+              <div className="eventtext  ">
+                <p className="eventtext-paragraph text-uppercase">
+                  {dayjs(start_date, "DD/M/YYYY").format("MMM DD, YYYY")} -{" "}
+                  {dayjs(end_date, "DD/M/YYYY").format("MMM DD, YYYY")}
+                </p>
+                <p className="fw-bold eventname">{name}</p>
+                <div className="d-md-flex gap-md-1">
+                  <p className="eventtext-paragraph">{venue}, </p>
+                  <p className="eventtext-paragraph">
+                    {city} {state}
+                  </p>
+                </div>
+              </div>
+              <div className="d-flex flex-column right-side d-md-none">
+                <div className="d-flex">
+                  <img
+                    onClick={copyToClipboard}
+                    src="/assets/events/Iconset/Share.svg"
+                    alt="share Icon"
+                  />
+                  <BsHeart />
+                </div>
+                <div>
+                  <Badge pill className="event-type">
+                    {type}
+                  </Badge>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="details-wrapper mt-md-2">
+          <div className="d-flex justify-content-between mt-3 ">
+            <ActionComponent />
+            {/* <div className="mb-2">
+              {
+                <DropdownButton
+                  as={ButtonGroup}
+                  id="dropdown-basic-button"
+                  title={title}
+                >
+                  <Dropdown.Item eventKey="1"></Dropdown.Item>
+                  <Dropdown.Divider />
+                  <Dropdown.Item
+                    eventKey="2"
+                    onClick={() => handleDropdownSelection("2")}
+                  >
+                    <span>
+                      <img src="/assets/events/Iconset/Star.svg" alt="" />
+                    </span>{" "}
+                    Interested
+                  </Dropdown.Item>
+                  <Dropdown.Divider />
+                  <Dropdown.Item
+                    eventKey="3"
+                    onClick={() => handleDropdownSelection("3")}
+                  >
+                    <span>
+                      <RxQuestionMark />
+                    </span>{" "}
+                    Maybe
+                  </Dropdown.Item>
+                  <Dropdown.Divider />
+                  <Dropdown.Item
+                    eventKey="4"
+                    onClick={() => handleDropdownSelection("4")}
+                  >
+                    <span>
+                      <VscCheck />
+                    </span>{" "}
+                    Attending
+                  </Dropdown.Item>
+                </DropdownButton>
+              }
+            </div> */}
+            <p className="fw-bold price d-md-none">{price}</p>
+          </div>
+          <div>
+            <h2 className="mt-md-4">Highlighted Artists</h2>
+
+            {artists.slice(0, 4).map((artist) => (
+              <div key={artist.id} className="">
+                <ul>
+                  <li>{artist.name.join(" ")}</li>
+                </ul>
+              </div>
+            ))}
+
+            <p>
+              More Listed{" "}
+              <span className="event-link">
+                <Link to={lineup_link} target="_blank">
+                  HERE
+                </Link>
+              </span>
             </p>
           </div>
-          <div className="d-flex flex-column right-side">
-            <div className="d-flex">
-              <img
-                onClick={copyToClipboard}
-                src="/assets/events/Iconset/Share.svg"
-                alt="share Icon"
-              />
-              <BsHeart />
-            </div>
-            <div>
-              <Badge pill className="event-type">
-                {type}
-              </Badge>
-            </div>
+          <div>
+            <p>
+              <strong>Promoted by</strong>: <span>{promoter}</span>
+            </p>
+            <p>
+              Age Restriction: <span>{age_restriction}</span> years
+            </p>
           </div>
+          <p className="fw-bold price mt-5">{price}</p>
+          <Link to={ticket_buying_link} target="_blank">
+            <Button className="find-ticket">Find Tickets</Button>
+          </Link>
         </div>
-        <div className="d-flex justify-content-between mt-3 ">
-          <ActionComponent />
-          {/* <div className="mb-2">
-            {
-              <DropdownButton
-                as={ButtonGroup}
-                id="dropdown-basic-button"
-                title={title}
-              >
-                <Dropdown.Item eventKey="1"></Dropdown.Item>
-                <Dropdown.Divider />
-                <Dropdown.Item
-                  eventKey="2"
-                  onClick={() => handleDropdownSelection("2")}
-                >
-                  <span>
-                    <img src="/assets/events/Iconset/Star.svg" alt="" />
-                  </span>{" "}
-                  Interested
-                </Dropdown.Item>
-                <Dropdown.Divider />
-                <Dropdown.Item
-                  eventKey="3"
-                  onClick={() => handleDropdownSelection("3")}
-                >
-                  <span>
-                    <RxQuestionMark />
-                  </span>{" "}
-                  Maybe
-                </Dropdown.Item>
-                <Dropdown.Divider />
-                <Dropdown.Item
-                  eventKey="4"
-                  onClick={() => handleDropdownSelection("4")}
-                >
-                  <span>
-                    <VscCheck />
-                  </span>{" "}
-                  Attending
-                </Dropdown.Item>
-              </DropdownButton>
-            }
-          </div> */}
-          <p className="fw-bold price">{price}</p>
-        </div>
-        <div>
-          <h2>Highlighted Artists</h2>
-
-          {artists.slice(0, 4).map((artist) => (
-            <div key={artist.id} className="">
-              <ul>
-                <li>{artist.name.join(" ")}</li>
-              </ul>
-            </div>
-          ))}
-
-          <p>
-            More Listed{" "}
-            <span className="event-link">
-              <Link to={lineup_link} target="_blank">
-                HERE
-              </Link>
-            </span>
-          </p>
-        </div>
-        <div>
-          <p>
-            <strong>Promoted by</strong>: <span>{promoter}</span>
-          </p>
-          <p>
-            Age Restriction: <span>{age_restriction}</span> years
-          </p>
-        </div>
-        <Link to={ticket_buying_link} target="_blank">
-          <Button className="find-ticket">Find Tickets</Button>
-        </Link>
       </div>
     </div>
   );
